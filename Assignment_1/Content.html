@@ -1,0 +1,124 @@
+<!-- center portion content for home index page-->
+<div id="content">
+	
+	<div id="carouselExampleInterval" class="carousel slide" data-ride="carousel">
+		<ol class="carousel-indicators">
+			<li data-target="#carouselExampleInterval" data-slide-to="0" class="active"></li>
+			<li data-target="#carouselExampleInterval" data-slide-to="1"></li>
+			<li data-target="#carouselExampleInterval" data-slide-to="2"></li>
+		</ol>
+
+		<div class="carousel-inner">
+			<div class="item active" >
+				<img src="images/doorbells/Arlo_wireless_video_doorbell.png" style="width: auto;
+				height: 245px;
+				max-height: 245px;
+				margin: auto; 
+				display: block;" alt="...">
+			</div>
+			<div class="item" >
+				<img src="images/speakers/echodot_2.jpg" style=" width: auto;
+				height: 245px;
+				max-height: 245px;
+				margin: auto; 
+				display: block;" alt="...">
+			</div>
+			<div class="item"  >
+				<img src="images/thermostats/echobee3_Lite_Smart.jpg" style="width: auto;
+				height: 245px;
+				max-height: 245px;
+				margin: auto; 
+				display: block;" alt="...">
+			</div>
+		</div>
+
+		<a class="left carousel-control" href="#carouselExampleInterval" role="button" data-slide="prev">
+			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+			<span class="sr-only">Previous</span>
+		</a>
+		<a class="right carousel-control" href="#carouselExampleInterval" role="button" data-slide="next">
+			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+			<span class="sr-only">Next</span>
+		</a>
+	</div>
+
+<div class="post">
+	<h2 class="title meta">
+		<a style="font-size: 24px;">Best Sellers</a>
+	</h2>
+		<div class="entry">
+	
+		<table id="bestseller">
+			<tr>
+				<td><div id="shop_item">
+						<h3>Philips Smart Lock</h3>
+						<strong>139.99$</strong>
+						<ul>
+							<li id="item"><img src="images/doorlocks/philips_smart_lock.jpg" alt="" />
+							</li>
+							<li>
+								<form action="Cart" method="post">
+									<div class ="btn-group">
+									<input type="submit" class="btn btn-success" value="Buy Now">
+									</div>
+									<input type="hidden" name="name" value="philipslock">
+									<input type="hidden" name="type" value="doorlocks">
+									<input type="hidden" name="maker" value="philips">
+									<input type="hidden" name="access" value="">
+								</form></li>
+								
+							<li>
+								<form action="ProductDetailsPage" method="post">
+									<div class ="btn-group">
+										<input type="submit" class="btn btn-default" value="View Product">
+									</div> 
+								<input type="hidden" name="name" value='philipslock'>
+								<input type="hidden" name="des" value='It has Ultra-long battery life'>
+								<input type="hidden" name="imgAdd" value='philips_smart_lock.jpg' > 
+								<input type="hidden" name="price" value='139.99'>
+								<input type="hidden" name="type" value='doorlocks'>
+								<input type="hidden" name="maker" value='philips'>
+								<input type="hidden" name="access" value=''>
+								</form>
+							</li>
+						</ul>
+					</div>
+				</td>
+				<td><div id="shop_item">
+					<h3>Nest x Yale Lock with Nest Connect</h3>
+					<strong>279.00</strong>
+					<ul>
+						<li id="item"><img src="images/doorlocks/nestx_yale_lock.jpg" alt="" />
+						</li>
+						<li>
+							<form action="Cart" method="post">
+								<div class ="btn-group">
+									<input type="submit" class="btn btn-success" value="Buy Now">
+									</div>								<input type="hidden" name="name" value="nestxyale">
+								<input type="hidden" name="type" value="doorlocks">
+								<input type="hidden" name="maker" value="yale">
+								<input type="hidden" name="access" value="">
+							</form></li>
+							
+						<li>
+							<form action="ProductDetailsPage" method="post">
+								<div class ="btn-group">
+									<input type="submit" class="btn btn-default" value="View Product">
+								</div> 
+							<input type="hidden" name="name" value="nestxyale">
+							<input type="hidden" name="des" value="It features Tamper-proof key free, connected deadbolt lock.">
+							<input type="hidden" name="imgAdd" value="nestx_yale_lock.jpg" > 
+							<input type="hidden" name="price" value="279.00">
+							<input type="hidden" name="type" value='doorlocks'>
+							<input type="hidden" name="maker" value='yale'>
+							<input type="hidden" name="access" value=''>
+							</form>
+							</li>
+						</ul>
+					</div></td>
+			</tr>
+		</table>
+	</div>
+</div>
+</div>
+<!-- end #content -->
