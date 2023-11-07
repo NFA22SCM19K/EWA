@@ -5,7 +5,9 @@ import DoorLocksList from './DoorLocksList';
 import SpeakersList from './SpeakersList';
 import LightingsList from './LightingsList';
 import ThermostatsList from './ThermostatsList';
+import Login from './Login';
 import {BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import AccessoryList from './AccessoryList';
 
 function App() {
   return (
@@ -19,20 +21,26 @@ function App() {
         <Route exact path="/home">
           <Home />
         </Route>
-        <Route exact path="/DoorBellsList">
+        <Route path="/DoorBellsList">
           <DoorBellsList />
         </Route>
-        <Route exact path="/DoorLocksList">
+        <Route path="/DoorLocksList">
           <DoorLocksList />
         </Route>
-        <Route exact path="/SpeakersList">
+        <Route path="/SpeakersList">
           <SpeakersList />
         </Route>
-        <Route exact path="/LightingsList">
+        <Route path="/LightingsList">
           <LightingsList />
         </Route>
-        <Route exact path="/ThermostatsList">
+        <Route path="/ThermostatsList">
           <ThermostatsList />
+        </Route>
+        <Route path="/AccessoryList">
+          <AccessoryList />
+        </Route>
+        <Route exact path="/Login">
+          <Login />
         </Route>
       </Switch>
       <Footer />
