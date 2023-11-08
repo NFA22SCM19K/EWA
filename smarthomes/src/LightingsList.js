@@ -107,7 +107,7 @@ export default function LightingsList(){
         <LeftNavigationBar />
         <div id='content'>
             <div className='post'>
-                <h2 class='title meta'>
+                <h2 className='title meta'>
 		            <a style={{fontSize: "24px"}}>Lightings</a>
                 </h2>
                 <div className='entry'>

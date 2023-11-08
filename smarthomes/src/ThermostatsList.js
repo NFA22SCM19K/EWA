@@ -105,7 +105,7 @@ export default function ThermostatsList(){
         <LeftNavigationBar />
         <div id='content'>
             <div className='post'>
-                <h2 class='title meta'>
+                <h2 className='title meta'>
 		            <a style={{fontSize: "24px"}}>Thermostats</a>
                 </h2>
                 <div className='entry'>

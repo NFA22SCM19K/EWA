@@ -106,7 +106,7 @@ export default function DoorLocksList(){
         <LeftNavigationBar />
         <div id='content'>
             <div className='post'>
-                <h2 class='title meta'>
+                <h2 className='title meta'>
 		            <a style={{fontSize: "24px"}}>Door Locks</a>
                 </h2>
                 <div className='entry'>
