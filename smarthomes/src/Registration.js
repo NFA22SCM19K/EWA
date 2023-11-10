@@ -69,7 +69,7 @@ export default function Registration(){
                     <h3>User Type</h3></td><td><Controller
                         name="usertype"
                         control={control}
-                        render={({ field }) => (<select name='usertype' className='input'><option value='customer'>Customer</option><option value='storeManager'>Store Manager</option><option value='salesManager'>Salesman</option></select>
+                        render={({ field }) => (<select name='usertype' className='input' {...field}><option value='customer'>Customer</option><option value='storeManager'>Store Manager</option><option value='salesManager'>Salesman</option></select>
                         )}
                         />
                         </td></tr></table>

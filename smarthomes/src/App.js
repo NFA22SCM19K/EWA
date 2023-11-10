@@ -8,6 +8,7 @@ import ThermostatsList from './ThermostatsList';
 import Login from './Login';
 import {BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import AccessoryList from './AccessoryList';
+import Registration from './Registration';
 
 function App() {
   return (
@@ -41,6 +42,9 @@ function App() {
         </Route>
         <Route exact path="/Login">
           <Login />
+        </Route>
+        <Route path="/Registration">
+          <Registration />
         </Route>
       </Switch>
       <Footer />

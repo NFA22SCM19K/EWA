@@ -182,11 +182,13 @@ header h1 a, header h1 a:hover {
 
 /* Products Display on the Main Content Screen */
 .post {
-	width: 750px;
+	width: 99%;
+	height: 100%;
 	margin-bottom: 20px;
 	padding: 10px 0px;
 	background: #FFFFFF;
 	border-radius: 5px;
+	margin-left: 5px;
 }
 
 /* Decoration for Title of Products in the Main Content Screen */
