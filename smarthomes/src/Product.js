@@ -1,5 +1,10 @@
 import './style.css';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+
 export default function Product(product){
+
+		const history = useHistory()
+
     return (
         <>
 			<h3>{product.Name}</h3>
@@ -7,7 +12,17 @@ export default function Product(product){
 			<ul>
                 <li id='item'><img src={'images/' + product.Type + '/' + product.Image} alt='' /></li>
                 <li>
-                    <form method='post' action='Cart'>
+                    <form onSubmit={(e)=>{
+											
+											
+											const item = {'name':product.Name,'price':product.Price};
+											product.addItem(item);
+											console.log("submit called");
+											e.preventDefault();
+											history.push('Cart');
+
+
+										}}>
                         <input type='hidden' name='name' value={product.Name}/>
 					    <input type='hidden' name='type' value={product.Type}/>
 					    <input type='hidden' name='maker' value='"+CategoryName+"'/>

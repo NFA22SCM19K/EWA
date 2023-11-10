@@ -1,3 +1,4 @@
+import {React, useState} from 'react';
 import Home from './Home';
 import Footer from './Footer';
 import DoorBellsList from './DoorBellsList';
@@ -9,8 +10,23 @@ import Login from './Login';
 import {BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import AccessoryList from './AccessoryList';
 import Registration from './Registration';
+import Cart from './Cart';
 
 function App() {
+  const [cartItems, setCartItems] = useState([]);
+
+  
+  const handleProduct = (product)=>{
+
+    console.log("add to cart");
+    setCartItems(
+      [...cartItems,{...product, quantity:1}]
+    )
+
+    console.log(cartItems);
+  };
+
+
   return (
     <Router>
     <div className="App">
@@ -23,7 +39,7 @@ function App() {
           <Home />
         </Route>
         <Route path="/DoorBellsList">
-          <DoorBellsList />
+          <DoorBellsList addItem={handleProduct} />
         </Route>
         <Route path="/DoorLocksList">
           <DoorLocksList />
@@ -45,6 +61,9 @@ function App() {
         </Route>
         <Route path="/Registration">
           <Registration />
+        </Route>
+        <Route exact path="/Cart">
+          <Cart cartItems = {cartItems}/>
         </Route>
       </Switch>
       <Footer />

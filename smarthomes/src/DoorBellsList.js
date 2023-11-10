@@ -3,10 +3,11 @@ import LeftNavigationBar from "./LeftNavigationBar";
 import Product from "./Product";
 import './style.css';
 import { useLocation } from "react-router-dom";
+
 import axios from "axios";
 import XMLParser from 'react-xml-parser';
 import { useState, useEffect } from "react";
-export default function DoorBellsList(){
+export default function DoorBellsList({addItem}){
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
 
@@ -77,6 +78,7 @@ export default function DoorBellsList(){
                 Desc={product.description}
                 Type="Doorbells"
                 Maker={CategoryName}
+                addItem={addItem}
             />
             </div>
             </td>
