@@ -11,10 +11,16 @@ import {BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import AccessoryList from './AccessoryList';
 import Registration from './Registration';
 import Cart from './Cart';
+import Details from './Details';
 
 function App() {
   const [cartItems, setCartItems] = useState([]);
+  const [detailsItem, setDetailsItems] = useState([]);
 
+
+  const handleDetails = (item)=>{
+    setDetailsItems(item)
+  }
   
   const handleProduct = (product)=>{
 
@@ -39,7 +45,7 @@ function App() {
           <Home />
         </Route>
         <Route path="/DoorBellsList">
-          <DoorBellsList addItem={handleProduct} />
+          <DoorBellsList addItem={handleProduct}  details={handleDetails}/>
         </Route>
         <Route path="/DoorLocksList">
           <DoorLocksList />
@@ -65,6 +71,10 @@ function App() {
         <Route exact path="/Cart">
           <Cart cartItems = {cartItems}/>
         </Route>
+        <Route exact path="/Details">
+          <Details item = {detailsItem}/>
+        </Route>
+        
       </Switch>
       <Footer />
       </div>

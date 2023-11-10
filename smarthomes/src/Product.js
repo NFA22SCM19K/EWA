@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 export default function Product(product){
 
 		const history = useHistory()
+		// details
 
     return (
         <>
@@ -33,7 +34,17 @@ export default function Product(product){
                     </form>
                 </li>
                 <li>
-                    <form method='post' action='ProductDetailsPage'>
+                    <form onSubmit={(e)=>{
+											
+											
+											
+											product.details(product);
+											console.log("details called");
+											e.preventDefault();
+											history.push('Details');
+
+
+										}}>
 					    <input type='hidden' name='name' value={product.Name}/>
 					    <input type='hidden' name='id' value=''/>
 					    <input type='hidden' name='type' value={product.Type} />
