@@ -43,6 +43,7 @@ hr {
 
 .container{
 	width: 80%;
+	height: fit-content !important;
 	margin: 20px auto;
 	padding: 10px;
 	box-shadow: 0 5px 5px 5px #CCCCCC;

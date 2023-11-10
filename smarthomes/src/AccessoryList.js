@@ -210,11 +210,18 @@ export default function AccessoryList(){
     return(
         <>
         <div className="Container">
-        <Header />
-        <LeftNavigationBar />
-        <div id='content'>
-            {renderContent()}
-        </div>
+            <Header />
+            <LeftNavigationBar />
+            <div id='content'>
+                <div className='post'>
+                    <h2 className='title meta'>
+		                <a style={{fontSize: "24px"}}>Accessories</a>
+                    </h2>
+                    <div className='entry'>
+                        {renderContent()}
+                    </div>
+                </div>
+            </div>
         </div>
         </>
     );

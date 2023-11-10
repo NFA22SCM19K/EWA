@@ -3,101 +3,89 @@ import LeftNavigationBar from "./LeftNavigationBar";
 import './style.css';
 import Product from "./Product";
 import { useLocation } from "react-router-dom";
+import axios from "axios";
+import XMLParser from 'react-xml-parser';
+import { useState, useEffect } from "react";
+
 export default function LightingsList(){
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
 
     const CategoryName = queryParams.get("maker");
+    const [lightingsProducts, setLightingsProducts] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const response = await axios.get("/ProductCatalog.xml");
+            const xmlData = response.data;
+            // const parsedData = parse(xmlData);
+            const parsedData = new XMLParser().parseFromString(xmlData);
+            const lightings = parsedData.getElementsByTagName("lightings");
+    
+            const products = lightings.map((lighting) => {
+              const id = lighting.attributes.id;
+              const name = lighting.getElementsByTagName("name")[0].value;
+              const price = lighting.getElementsByTagName("price")[0].value;
+              const image = lighting.getElementsByTagName("image")[0].value;
+              const description = lighting.getElementsByTagName("description")[0].value;
+              const manufacturer = lighting.getElementsByTagName("manufacturer")[0].value;
+              // ... other product details
+    
+              return {
+                id,
+                name,
+                price,
+                image,
+                description,
+                manufacturer,
+                // ... other product details
+              };
+            });
+    
+            setLightingsProducts(products);
+          } catch (error) {
+            console.error("Error fetching data:", error);
+          }
+        };
+    
+        fetchData();
+      }, [CategoryName]);
+
     function renderContent(){
-        if(CategoryName === null )
-        {
-            return(
-                <>
-                    <tr>
-                        <td>
-                            <div id='shop_item'>
-                                <Product Id = "Philipslight" Name="Philips Hue Fair Ceiling Light" Price="269.99" Type='lightings' Image="Philips_Hue_Fair_Ceiling_light.jpg" Desc='It has Zigbee Light Link wireless protocol	and Estimated Lifetime of25,000 hours / 50,000 switching cycles.' Maker='Philips' />
-                            </div>
-                        </td>
-                        <td>
-                            <div id='shop_item'>
-                                <Product Id = "gowinglight" Name="Gowing Smart Ceiling Light Fixture Flush Mount LED" Price="48" Type='lightings' Image="gowing_ceiling_fixture_bedroom.jpg" Desc='It has a Ceiling Mount Switch Installation Type and has a Luminous Flux of 2400 Lumen.' Maker='Gowing' />
-                            </div>
-                        </td>
-                        <td>
-                            <div id='shop_item'>
-                                <Product Id = "et2hive" Name ='ET2 Hive 8" Wide Mini Pendant' Price="118" Type='lightings' Image="ET2_Hive_LED.jpg" Desc='It is made of Concrete and has a Fixture Height of 7" and Lumens of 490.' Maker='ET2' />
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div id='shop_item'>
-                                <Product Id = "et2icorona" Name='ET2 iCorona 18" Wide LED Flush Mount Drum Smart Ceiling Fixture - 277' Price="898" Type='lightings' Image="ET2_2.jpg" Desc='It has Lumens of 2400 and a color Rendering Index of 90 CRI.' Maker='ET2' />
-                            </div>
-                        </td>
-                        <td>
-                            <div id='shop_item'>
-                                <Product Id = "et2chimes" Name='ET2 Chimes 15" Tall LED Bathroom Sconce' Price="478" Type='lightings' Image="ET2_3.jpg" Desc='It is Constructed from steel and includes a metal shade. It also has a integrated LED lighting.' Maker='ET2' />
-                            </div>
-                        </td>
-                    </tr>
- 
-                </>
-            );
+        const productsByMaker = CategoryName
+            ? lightingsProducts.filter(
+                (product) =>
+                product.manufacturer.toLowerCase() === CategoryName.toLowerCase()
+            )
+            : lightingsProducts;
+
+        if (productsByMaker.length === 0) {
+            return <p>No products found for {CategoryName}</p>;
         }
-        else if(CategoryName === "gowing")
-        {
-            return(
-                <>
-                    <tr>
-                        <td>
-                            <div id='shop_item'>
-                                <Product Id = "gowinglight" Name="Gowing Smart Ceiling Light Fixture Flush Mount LED" Price="48" Type='lightings' Image="gowing_ceiling_fixture_bedroom.jpg" Desc='It has a Ceiling Mount Switch Installation Type and has a Luminous Flux of 2400 Lumen.' Maker='Gowing' />
-                            </div>
-                        </td>
-                    </tr>
-                </>
-            );
+
+        // Render products in rows with three products per row
+        const rows = [];
+        for (let i = 0; i < productsByMaker.length; i += 3) {
+            const row = productsByMaker.slice(i, i + 3).map((product) => (
+                <td key={product.id}>
+                <div id='shop_item'>
+                <Product
+                    Id={product.id}
+                    Name={product.name}
+                    Price={product.price}
+                    Image={product.image}
+                    Desc={product.description}
+                    Type="Lightings"
+                    Maker={CategoryName}
+                />
+                </div>
+                </td>
+        ));
+        rows.push(<tr key={i}>{row}</tr>);
         }
-        else if(CategoryName === "philips")
-        {
-            return(
-                <>
-                  <tr>
-                        <td>
-                            <div id='shop_item'>
-                                <Product Id = "Philipslight" Name="Philips Hue Fair Ceiling Light" Price="269.99" Type='lightings' Image="Philips_Hue_Fair_Ceiling_light.jpg" Desc='It has Zigbee Light Link wireless protocol	and Estimated Lifetime of25,000 hours / 50,000 switching cycles.' Maker='Philips' />
-                            </div>
-                        </td>
-                    </tr>  
-                </>
-            );
-        }
-        else if(CategoryName === "et2")
-        {
-            return(
-                <>
-                    <tr>
-                        <td>
-                            <div id='shop_item'>
-                                <Product Id = "et2hive" Name ='ET2 Hive 8" Wide Mini Pendant' Price="118" Type='lightings' Image="ET2_Hive_LED.jpg" Desc='It is made of Concrete and has a Fixture Height of 7" and Lumens of 490.' Maker='ET2' />
-                            </div>
-                        </td>
-                        <td>
-                            <div id='shop_item'>
-                                <Product Id = "et2icorona" Name='ET2 iCorona 18" Wide LED Flush Mount Drum Smart Ceiling Fixture - 277' Price="898" Type='lightings' Image="ET2_2.jpg" Desc='It has Lumens of 2400 and a color Rendering Index of 90 CRI.' Maker='ET2' />
-                            </div>
-                        </td>
-                        <td>
-                            <div id='shop_item'>
-                                <Product Id = "et2chimes" Name='ET2 Chimes 15" Tall LED Bathroom Sconce' Price="478" Type='lightings' Image="ET2_3.jpg" Desc='It is Constructed from steel and includes a metal shade. It also has a integrated LED lighting.' Maker='ET2' />
-                            </div>
-                        </td>
-                    </tr>
-                </>
-            );
-        }
+
+        return rows;
     }
 
     return(
@@ -112,7 +100,7 @@ export default function LightingsList(){
                 </h2>
                 <div className='entry'>
                 <table id='bestseller'>
-                    {renderContent()}
+                    <tbody>{renderContent()}</tbody>
                 </table>
                </div>
             </div>
