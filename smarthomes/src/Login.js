@@ -1,12 +1,56 @@
 import './style.css';
 import Header from './Header';
 import { useForm, Controller } from 'react-hook-form';
-export default function Login() {
-    const { register, handleSubmit, control, formState: {errors}} = useForm();
+import {React, useState,useEffect} from 'react';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+export default function Login(userDetails) {
+
+    const { register, handleSubmit, control, setValue,formState: {errors}} = useForm();
+    const [error, setError] = useState('');
+    const history = useHistory()
+
+    useEffect(() => {
+        // Set the default value for usertype when the component mounts
+        setValue('usertype', 'customer');
+      }, [setValue]);
+
     const handleRegistration = (formData) => {
         console.log("Form submitted");
         console.log(formData);
+        handleLogin(formData);
     }
+
+    const handleLogin = (formData) => {
+        const { username, password, usertype } = formData;
+    
+        // Check if the user exists in the local data
+        const userDetailsList = userDetails.userDetails
+        const user = userDetailsList[username];
+        console.log(username)
+        console.log(user)
+    
+        if (user && user.password === password && user.usertype === usertype) {
+          // Simulate successful login
+          setError('');
+          
+          if(usertype === "customer")
+          {
+            history.push("home")
+          }
+          if(usertype === "storeManager")
+          {
+            history.push("homesm")
+          }
+          if(usertype === "salesManager")
+          {
+            history.push("homesam")
+          }
+
+        } else {
+          // Simulate login failure
+          setError('Invalid username, password, or user type.');
+        }
+      };
 
     const handleError = (errors) => {};
 
@@ -42,7 +86,7 @@ export default function Login() {
                 <h3>User Type</h3></td><td><Controller
                         name="usertype"
                         control={control}
-                        render={({ field }) => (<select name='usertype' className='input'><option value='customer'>Customer</option><option value='storeManager'>Store Manager</option><option value='salesManager'>Salesman</option></select>
+                        render={({ field }) => (<select name='usertype' className='input' {...field} ><option value='customer'>Customer</option><option value='storeManager'>Store Manager</option><option value='salesManager'>Salesman</option></select>
                         )}
                         />
                 </td></tr><tr><td></td><td>
@@ -50,6 +94,7 @@ export default function Login() {
                 </td></tr><tr><td></td><td>
                 <strong><a className='' href='Registration' style={{float:'right',height:'20px' ,margin:'20px'}}>New User? Register here!</a></strong>
                 </td></tr></table>    
+                {error && <div style={{ color: 'red' }}>{error}</div>}
         </form>
         </div></div></div>
         </div>

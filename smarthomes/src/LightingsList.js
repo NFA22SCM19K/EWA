@@ -7,7 +7,7 @@ import axios from "axios";
 import XMLParser from 'react-xml-parser';
 import { useState, useEffect } from "react";
 
-export default function LightingsList(){
+export default function LightingsList({addItem, details}){
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
 
@@ -78,6 +78,8 @@ export default function LightingsList(){
                     Desc={product.description}
                     Type="Lightings"
                     Maker={CategoryName}
+                    addItem={addItem}
+                    details = {details}
                 />
                 </div>
                 </td>

@@ -7,7 +7,7 @@ import axios from "axios";
 import XMLParser from 'react-xml-parser';
 import { useState, useEffect } from "react";
 
-export default function SpeakersList(){
+export default function SpeakersList({addItem, details}){
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
 
@@ -79,6 +79,8 @@ export default function SpeakersList(){
                     Desc={product.description}
                     Type="Speakers"
                     Maker={CategoryName}
+                    addItem={addItem}
+                    details = {details}
                 />
                 </div>
                 </td>
