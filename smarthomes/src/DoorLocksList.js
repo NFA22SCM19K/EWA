@@ -7,7 +7,7 @@ import axios from "axios";
 // import { parse } from "react-xml-parser";
 import XMLParser from 'react-xml-parser';
 import { useState, useEffect } from "react";
-export default function DoorLocksList(){
+export default function DoorLocksList({addItem, details}){
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
 
@@ -79,6 +79,8 @@ export default function DoorLocksList(){
                 Desc={product.description}
                 Type="Doorlocks"
                 Maker={CategoryName}
+                addItem={addItem}
+                details = {details}
             />
             </div>
             </td>
