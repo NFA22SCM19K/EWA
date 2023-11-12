@@ -19,6 +19,7 @@ import AddProductPage from './AddProductPage';
 import ProductUpdatePage from './ProductUpdatePage';
 import ProductDeletePage from './ProductDeletePage';
 import Logout from './Logout';
+import Account from './Account';
 
 function App() {
   const [cartItems, setCartItems] = useState([]);
@@ -100,6 +101,9 @@ function App() {
         </Route>
         <Route exact path="/ProductDeletePage">
           <ProductDeletePage/>
+        </Route>
+        <Route exact path="/Account">
+          <Account />
         </Route>
       </Switch>
       <Footer />

@@ -16,7 +16,6 @@ export default function ViewOrder(){
     const {user} = useUser();
     const { username, usertype } = user || "user1";
 
-    console.log(username)
     const userNameToSearch = username;
     const userNameToCancel = username;
     
@@ -37,8 +36,6 @@ export default function ViewOrder(){
           setPaymentDetails(initialPaymentDetails);
 
           localStorage.setItem('PaymentDetails', JSON.stringify(initialPaymentDetails))
-          console.log("View order ")
-          console.log("PayementsDetails",paymentDetails)
         } catch (error) {
           console.error("Error fetching payment details:", error);
         }
@@ -61,11 +58,6 @@ export default function ViewOrder(){
     };
   
     const handleCancelOrder = (selectedOrderName,selectedOrderId) => {
-      
-      console.log(selectedOrderId)
-      console.log(selectedOrderName)
-      console.log(userNameToCancel)
-      console.log(paymentDetails)
 
       if (selectedOrderName !== null && paymentDetails) {
           const updatedPaymentDetails = { ...paymentDetails };

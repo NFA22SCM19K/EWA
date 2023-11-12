@@ -2,7 +2,7 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useUser } from './UserContext';
 import './style.css';
 
-export default function Header({itemCount=0}){
+export default function Header(){
 
 	const history = useHistory();
 
@@ -41,9 +41,11 @@ export default function Header({itemCount=0}){
                     {username ? (<li>
 					<a><span className='glyphicon'>Hello, {username}</span></a></li>
 						) : null}
-					{username ? (<li><a href='Logout'><span class='glyphicon'>Logout</span></a></li>):
+					{username ? (<>
+					<li><a href='Logout' onClick={(e)=>(routeToComponent(e,"Logout"))}><span className='glyphicon'>Logout</span></a></li>
+					<li><a href='Account' onClick={(e)=>(routeToComponent(e,"Account"))}><span className='glyphicon'>Account</span></a></li></>):
 					<li><a href='Login' onClick={(e)=>(routeToComponent(e,"Login"))}><span className='glyphicon'>Login</span></a></li>}
-                    <li><a href='Cart' onClick={(e)=>(routeToComponent(e,"Cart"))}><span className='glyphicon'>Cart({itemCount})</span></a></li>
+                    <li><a href='Cart' onClick={(e)=>(routeToComponent(e,"Cart"))}><span className='glyphicon'>Cart(0)</span></a></li>
                 </ul>
             </div>
         </nav>
