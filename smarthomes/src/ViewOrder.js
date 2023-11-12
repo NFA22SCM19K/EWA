@@ -2,9 +2,11 @@ import './style.css';
 import Header from './Header';
 import LeftNavigationBar from './LeftNavigationBar';
 import { useLocation } from "react-router-dom";
-import {React, useState} from 'react';
+import {React, useState, useEffect} from 'react';
+import { useUser } from './UserContext';
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-export default function ViewOrder(paymentDetails){
+export default function ViewOrder(){
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
 
@@ -12,78 +14,111 @@ export default function ViewOrder(paymentDetails){
     const orderId = queryParams.get("orderId");
     const orderName = queryParams.get("orderName");
     //let orderId = 1
-    const userNameToSearch = "user1"
-    const orderNameToCancel = "Echo Dot (5th Gen, 2022 release) with clock"
-    const userNameToCancel = "test2"
+    const {user} = useUser();
+    const { username, usertype } = user || {};
 
-    const [orderIdVal, setOrderIdVal] = useState(null);
+    console.log(username)
+    const userNameToSearch = username;
+    const orderNameToCancel = queryParams.get("orderName");
+    const userNameToCancel = username;
+
+    const [paymentDetails, setPaymentDetails] = useState(null);
     const [isFormVisible, setFormVisibility] = useState(true);
 
-    function cancelItem(e){
-        e.preventDefault();
-        console.log(paymentDetails)
-        {Order !== null && Order === "CancelOrder" && (
-            <>
-              {orderName !== null ? (
-                (() => {
-                    
-                  const orders = paymentDetails.paymentDetails[orderId];
-                  const updatedOrders = orders.filter(
-                    (order) =>
-                      order.orderName !== orderNameToCancel &&
-                      order.userName !== userNameToCancel
-                  );
-                  if (updatedOrders.length < orders.length) {
-                    // Order found and removed
-                    paymentDetails.paymentDetails[orderId] = updatedOrders;
-                    if (updatedOrders.length === 0) {
-                      // No more orders for the orderId, remove the orderId
-                      delete paymentDetails.paymentDetails[orderId];
-                    }
-                    <h4 style={{ color: "red" }}>
-                      Your Order is Cancelled
-                    </h4>
-                    {console.log(paymentDetails)}
-                  }
-                })()
-              ) : (
-                <h4 style={{ color: "red" }}>
-                  Please select any product
-                </h4>
-              )}
-            </>
-          )}
-          setFormVisibility(false);
-    }
+    // Read paymentDetails from the JSON file
+    useEffect(() => {
+      // Read payment details from localStorage or load from a server if needed
+      const fetchPaymentDetails = async () => {
+        try {
+          const storedPaymentDetails = localStorage.getItem('PaymentDetails');
+          const initialPaymentDetails = storedPaymentDetails
+            ? JSON.parse(storedPaymentDetails)
+            : require('./PaymentDetails.json');
+  
+          setPaymentDetails(initialPaymentDetails);
+        } catch (error) {
+          console.error("Error fetching payment details:", error);
+        }
+      };
+  
+      fetchPaymentDetails();
+    }, []);
 
+    const history = useHistory();
+
+    const handleViewOrder = (e) => {
+      e.preventDefault();
+      const selectedOrderId = e.target.elements.orderId.value;
+      if (selectedOrderId) {
+        history.push(`/viewOrder?Order=ViewOrder&orderId=${selectedOrderId}`);
+      } else {
+        // Handle the case where the orderId is not valid
+        console.log("Invalid orderId");
+      }
+    };
+  
+    const handleCancelOrder = (e) => {
+      
+      if (orderName !== null && paymentDetails) {
+          const updatedPaymentDetails = { ...prevPaymentDetails };
+  
+          const order = updatedPaymentDetails.orders.find((o) => o.orderid === parseInt(orderId));
+          if (order) {
+            const selectedOrderName = orderNameToCancel;
+
+            if (!selectedOrderName) {
+              setCancellationMessage("Please select any product");
+              return;
+            }
+
+            order.items = order.items.filter(
+              (item) => item.orderName !== selectedOrderName && item.userName !== userNameToCancel
+            ); 
+  
+            if (order.items.length === 0) {
+              updatedPaymentDetails.orders = updatedPaymentDetails.orders.filter((o) => o.orderid !== order.orderid);
+            }
+          }
+  
+          localStorage.setItem('PaymentDetails', JSON.stringify(updatedPaymentDetails));
+          setCancellationMessage("Your Order is Cancelled");
+          setFormVisibility(false);
+          return;
+        }
+      }
+      console.error("Error cancelling order");
+    };
+
+    if (!paymentDetails) {
+      // If paymentDetails is still loading, you can render a loading spinner or a message
+      return <p>Loading...</p>;
+    }
+  
     return(
         <>
         <div className="Container">
             <Header />
             <LeftNavigationBar />
             {isFormVisible && (
-            <form name="ViewOrder" action="ViewOrder" method="get" >
+            <form name="ViewOrder" action="ViewOrder" method="get" onSubmit={handleViewOrder}>
             <div id='content'><div className='post'><h2 className='title meta'>
             <a style={{fontSize: "24px"}}>Order</a>
             </h2><div className='entry'>
             { Order === null && (
                 <table align='center'><tr><td>Enter OrderNo &nbsp;&nbsp;<input name='orderId' type='text'/></td>
-                <td><input type='submit' name='Order' value='ViewOrder' className='btnbuy'/></td></tr></table>
+                <td><input type='submit' name='Order' value='ViewOrder' className='btnbuy' /></td></tr></table>
             )}
             
-            {Order !== null && Order === "ViewOrder" && (
+          {Order !== null && Order === "ViewOrder" && (
 			    <>
-                {orderId !== null && orderId !== "" && (
+                {orderId !== null && orderId !== "" && paymentDetails && (
                   <>
-				    <input type='hidden' name='orderId' value={orderId}/>
-                    {paymentDetails.paymentDetails[orderId] && (
-                    <>
-                        {Object.values(paymentDetails.paymentDetails[orderId])
-                            .filter(
-                              (product) =>
-                                product.userName === userNameToSearch
-                            )
-                            .length > 0 ? (
+                    <input type='hidden' name='orderId' value={orderId}/>
+                    {paymentDetails.orders.find((o) => o.orderid === parseInt(orderId)) && (
+                            <>
+                              {Object.values(paymentDetails.orders.find((o) => o.orderid === parseInt(orderId)).items)
+                                .filter((product) => product.userName === userNameToSearch)
+                                .length > 0 ? (
                             <table className="gridtable">
                               <tr>
                                 <td></td><td>OrderId:</td>
@@ -91,7 +126,7 @@ export default function ViewOrder(paymentDetails){
                                 <td>productOrdered:</td>
                                 <td>productPrice:</td>
                               </tr>
-                              {paymentDetails.paymentDetails[orderId].map((order) => (
+                              {paymentDetails.orders.find((o) => o.orderid === parseInt(orderId)).items.map((order) => (
                                 <tr key={order.userName}>
                                   <td>
                                     <input type="radio" name="orderName" value={order.orderName}/>
@@ -101,7 +136,8 @@ export default function ViewOrder(paymentDetails){
                                   <td>{order.orderName}</td>
                                   <td>Price:{order.orderPrice}</td>
                                   <td>
-                                    <input type="submit" name="Order" value="CancelOrder" className="btnbuy" />
+                                    <input type='hidden' name='orderName' value={orderName}/>
+                                    <input type="button " name="Order" value="CancelOrder" className="btnbuy" onClick={handleCancelOrder}/>
                                   </td>
                                 </tr>
                               ))}
@@ -113,38 +149,50 @@ export default function ViewOrder(paymentDetails){
                           )}
                         </>
                       )}
+                      {!paymentDetails.orders.find((o) => o.orderid === parseInt(orderId)) && (
+                            <h4 style={{ color: "red" }}>
+                              You have not placed any order with this order id
+                            </h4>
+                          )}
+                        </>
+                      )}
+                      {(!orderId || orderId === '') && (
+                        <h4 style={{ color: 'red' }}>
+                          Please enter the valid order number
+                        </h4>
+                      )}
                     </>
                   )}
-                  {!orderId || orderId === "" && (
-                    <h4 style={{ color: "red" }}>
-                      Please enter the valid order number
-                    </h4>
-                  )}
-                </>
-              )}
             {Order !== null && Order === "CancelOrder" && (
                 <>
-                  {orderName !== null ? (
+                   {orderName !== null ? (
                     (() => {
                         
-                      const orders = paymentDetails.paymentDetails[orderId];
-                      const updatedOrders = orders.filter(
-                        (order) =>
-                          order.orderName !== orderNameToCancel &&
-                          order.userName !== userNameToCancel
-                      );
-                      if (updatedOrders.length < orders.length) {
-                        // Order found and removed
-                        paymentDetails.paymentDetails[orderId] = updatedOrders;
-                        if (updatedOrders.length === 0) {
-                          // No more orders for the orderId, remove the orderId
-                          delete paymentDetails.paymentDetails[orderId];
-                        }
-                        {console.log(paymentDetails)}
-                        <h4>
-                          Your Order is Cancelled
-                        </h4>
-                      }
+                      const orders = paymentDetails.orders.find((o) => o.orderid === parseInt(orderId)).items;
+                      
+                        const updatedOrders = orders.filter(
+                          (order) =>
+                          order.orderName !== orderNameToCancel && order.userName !== userNameToCancel
+                        );
+
+                        if (updatedOrders.length <= orders.items.length) {
+                          // Order found and removed
+                          paymentDetails.orders.find((o) => o.orderid === parseInt(orderId)).items = updatedOrders;
+
+                          if (updatedOrders.length === 0) {
+                            // No more items for the orderId, remove the orderId
+                            paymentDetails.orders = paymentDetails.orders.filter((o) => o.orderid !== parseInt(orderId));
+                          }
+
+                          localStorage.setItem('PaymentDetails', JSON.stringify(paymentDetails));
+                            setCancellationMessage("Your Order is Cancelled");
+                            setFormVisibility(false);
+                            return;
+
+                        // return(<h4>
+                        //   Your Order is Cancelled
+                        // </h4>);
+                    }
                     })()
                   ) : (
                     <h4 style={{ color: "red" }}>
@@ -155,7 +203,7 @@ export default function ViewOrder(paymentDetails){
               )}
             </div>
             </div>
-            </div>
+            </div> 
             </form>
             )}
         </div>
