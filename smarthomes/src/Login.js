@@ -5,17 +5,25 @@ import {React, useState,useEffect} from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import userDetails from './UserDetails.json';
 import { useUser } from './UserContext';
+import { useLocation } from "react-router-dom";
 export default function Login() {
 
     const { register, handleSubmit, control, setValue,formState: {errors}} = useForm();
     const [error, setError] = useState('');
+    const location = useLocation();
+    const successParam = new URLSearchParams(location.search).get('success');
+    const [registrationSuccess, setRegistrationSuccess] = useState(successParam === 'true');
     const history = useHistory()
     const { loginUser } = useUser();
 
     useEffect(() => {
         // Set the default value for usertype when the component mounts
         setValue('usertype', 'customer');
-      }, [setValue]);
+
+        setValue('usertype', 'customer');
+  }, [setValue]);
+
+    
 
     const handleRegistration = (formData) => {
         console.log("Form submitted");
@@ -66,6 +74,11 @@ export default function Login() {
             <h2 className='title meta'><a style={{fontSize:'24px'}}>Login</a></h2>   
             <div className='entry'>
             <div style={{width:'400px', margin:'25px', marginLeft:'auto',marginRight: 'auto'}}>
+            {registrationSuccess && (
+          <p style={{ color: 'red',fontSize:"15px" }}>
+            Your {userDetails.users[userDetails.users.length - 1].usertype} account has been created. Please login.
+          </p>
+        )}
         <form onSubmit={handleSubmit(handleRegistration, handleError)}>
 			<table style={{width:'100%'}}>
                 <tr><td>

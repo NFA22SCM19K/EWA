@@ -2,18 +2,35 @@ import './style.css';
 import Header from './Header';
 import { useForm, Controller } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
+import userDetails from './UserDetails.json';
+import {React, useState} from 'react';
+
 export default function Registration(){
     const { register,control, handleSubmit, setError, formState: { errors } } = useForm();
     const history = useHistory();
+    const [registrationSuccess, setRegistrationSuccess] = useState(false);
+
     const handleRegistration = (data) => {
         if (data.password !== data.repassword) {
             setError('repassword', { type: 'manual', message: "Passwords don't match" });
           } else {
             // You can send the form data to your server for registration and data storage here
             console.log('Form submitted', data);
+            const userExists = userDetails.users.some(user => user.username === data.username);
+            if (userExists) {
+                setError('username', { type: 'manual', message: "Username already exists" });
+            } else{
+                userDetails.users.push({
+                    username: data.username,
+                    password: data.password,
+                    usertype: data.usertype
+                  });
+                  // Set registration success to true
+                    setRegistrationSuccess(true);
+                // Redirect to login or account page
+                history.push('/login?success=true'); // Change '/Login' to the appropriate route
+            }
       
-            // Redirect to login or account page
-            //history.push('/Login'); // Change '/Login' to the appropriate route
           }
       }
       const handleError = (errors) => {};
@@ -75,6 +92,7 @@ export default function Registration(){
                         </td></tr></table>
                     <input type='submit' className='btnbuy' name='ByUser' value='Create User' style={{float: "right",height: "20px", margin: "20px", marginRight: "10px"}}></input>
                 </form>
+                
                 </div></div></div>
             </div>
         </>

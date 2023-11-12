@@ -24,14 +24,6 @@ function App() {
   const [cartItems, setCartItems] = useState([]);
   const [detailsItem, setDetailsItems] = useState([]);
 
-  const paymentDetails = {
-    1:  [{userName: "user1", orderName: "Echo Dot (5th Gen, 2022 release) with clock", orderPrice: 59.99, firstName:"test", creditCardNo: 7456},
-         {userName: "user1", orderName: "Google - Nest Learning Smart Wifi Thermostat", orderPrice: 249.99, firstName:"test", creditCardNo: 7456},
-        ],
-    2:  [{ userName: "test2", orderName: "Echo Dot (5th Gen, 2022 release) with clock", orderPrice: 59.99, firstName:"test2", creditCardNo: 1235},
-        ],
-  }
-
   const handleDetails = (item)=>{
     setDetailsItems(item)
   }
@@ -82,7 +74,7 @@ function App() {
         <Route path="/AccessoryList">
           <AccessoryList addItem={handleProduct}  details={handleDetails}/>
         </Route>
-        <Route exact path="/Login">
+        <Route path="/Login">
           <Login />
         </Route>
         <Route exact path="/Logout">
@@ -98,7 +90,7 @@ function App() {
           <Details item = {detailsItem}/>
         </Route>
         <Route exact path="/ViewOrder">
-          <ViewOrder paymentDetails = {paymentDetails} />
+          <ViewOrder />
         </Route>
         <Route exact path="/AddProductPage">
           <AddProductPage />
