@@ -1,17 +1,19 @@
-import LeftNavigationBar from "./LeftNavigationBar";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-
+import { useUser } from './UserContext';
 
 import './style.css';
 export default function Header1(){
 
-		const history = useHistory();
+	const history = useHistory();
 
-		function routeToComponent(e, routePath){
+	function routeToComponent(e, routePath){
 
-			e.preventDefault();
-			history.push(routePath);
-		}
+		e.preventDefault();
+		history.push(routePath);
+	}
+
+	const {user} = useUser();
+    const { username, usertype } = user || {};
 
     return(
         <>

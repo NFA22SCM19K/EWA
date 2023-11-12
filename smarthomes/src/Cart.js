@@ -3,11 +3,8 @@ import LeftNavigationBar from "./LeftNavigationBar";
 
 export default function Cart(cartItems){
 
-  console.log(cartItems)
-
 
   const items = cartItems.cartItems;
-  console.log(items);
   let total =0;
 
   items.map((item)=>{

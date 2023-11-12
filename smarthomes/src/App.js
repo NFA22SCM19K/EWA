@@ -15,19 +15,13 @@ import Details from './Details';
 import HomeSM from './HomeSM';
 import HomeSAM from './HomeSAM';
 import ViewOrder from './ViewOrder';
+import AddProductPage from './AddProductPage';
+import ProductUpdatePage from './ProductUpdatePage';
+import ProductDeletePage from './ProductDeletePage';
 
 function App() {
   const [cartItems, setCartItems] = useState([]);
   const [detailsItem, setDetailsItems] = useState([]);
-
-  const userDetails = {
-    user1: { password: 'password1', usertype: 'customer' },
-    user2: { password: 'password2', usertype: 'storeManager' },
-    user3: { password: 'password3', usertype: 'saleManager' },
-    test1: { password: '123', usertype: 'customer'},
-    test2: { password: '123', usertype: 'customer'},
-    // Add more users as needed
-  };
 
   const paymentDetails = {
     1:  [{userName: "user1", orderName: "Echo Dot (5th Gen, 2022 release) with clock", orderPrice: 59.99, firstName:"test", creditCardNo: 7456},
@@ -88,10 +82,10 @@ function App() {
           <AccessoryList addItem={handleProduct}  details={handleDetails}/>
         </Route>
         <Route exact path="/Login">
-          <Login userDetails = {userDetails}/>
+          <Login />
         </Route>
         <Route path="/Registration">
-          <Registration userDetails = {userDetails}/>
+          <Registration />
         </Route>
         <Route exact path="/Cart">
           <Cart cartItems = {cartItems}/>
@@ -100,9 +94,17 @@ function App() {
           <Details item = {detailsItem}/>
         </Route>
         <Route exact path="/ViewOrder">
-          <ViewOrder paymentDetails = {paymentDetails}/>
+          <ViewOrder paymentDetails = {paymentDetails} />
         </Route>
-        
+        <Route exact path="/AddProductPage">
+          <AddProductPage />
+        </Route>
+        <Route exact path="/ProductUpdatePage">
+          <ProductUpdatePage />
+        </Route>
+        <Route exact path="/ProductDeletePage">
+          <ProductDeletePage/>
+        </Route>
       </Switch>
       <Footer />
       </div>

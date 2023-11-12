@@ -3,11 +3,14 @@ import Header from './Header';
 import { useForm, Controller } from 'react-hook-form';
 import {React, useState,useEffect} from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-export default function Login(userDetails) {
+import userDetails from './UserDetails.json';
+import { useUser } from './UserContext';
+export default function Login() {
 
     const { register, handleSubmit, control, setValue,formState: {errors}} = useForm();
     const [error, setError] = useState('');
     const history = useHistory()
+    const { loginUser } = useUser();
 
     useEffect(() => {
         // Set the default value for usertype when the component mounts
@@ -23,15 +26,12 @@ export default function Login(userDetails) {
     const handleLogin = (formData) => {
         const { username, password, usertype } = formData;
     
-        // Check if the user exists in the local data
-        const userDetailsList = userDetails.userDetails
-        const user = userDetailsList[username];
-        console.log(username)
-        console.log(user)
-    
+        // Check if the user exists in the JSON data
+        const user = userDetails.users.find(user => user.username === username);
+
         if (user && user.password === password && user.usertype === usertype) {
-          // Simulate successful login
           setError('');
+          loginUser({ username: formData.username, usertype: formData.usertype });
           
           if(usertype === "customer")
           {

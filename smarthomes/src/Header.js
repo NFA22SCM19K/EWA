@@ -1,18 +1,20 @@
-import LeftNavigationBar from "./LeftNavigationBar";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-
+import { useUser } from './UserContext';
 
 import './style.css';
 export default function Header(){
 
-		const history = useHistory();
+	const history = useHistory();
 
-		function routeToComponent(e, routePath){
+	function routeToComponent(e, routePath){
 
-			e.preventDefault();
-			history.push(routePath);
-		}
+		e.preventDefault();
+		history.push(routePath);
+	}
 
+	const {user} = useUser();
+    const { username, usertype } = user || {};
+	
     return(
         <>
 		{/* The name of the company goes here  */}
@@ -35,9 +37,12 @@ export default function Header(){
 			</div>
             <div style={{float: 'right'}} >
                 <ul className='nav navbar-nav'>
-                    <li><a href='ViewOrder'><span className='glyphicon'>View Order</span></a></li>
-                    <li><a href='Login'><span className='glyphicon'>Login</span></a></li>
-                    <li><a href='Cart'><span className='glyphicon'>Cart(0)</span></a></li>
+                    <li><a href='ViewOrder' onClick={(e)=>(routeToComponent(e,"ViewOrder"))}><span className='glyphicon'>View Order</span></a></li>
+                    {username ? (<li>
+					<a><span className='glyphicon'>Hello, {username}</span></a></li>
+						) : null}
+					<li><a href='Login' onClick={(e)=>(routeToComponent(e,"Login"))}><span className='glyphicon'>Login</span></a></li>
+                    <li><a href='Cart' onClick={(e)=>(routeToComponent(e,"Cart"))}><span className='glyphicon'>Cart(0)</span></a></li>
                 </ul>
             </div>
         </nav>
