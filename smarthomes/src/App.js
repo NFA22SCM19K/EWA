@@ -18,6 +18,7 @@ import ViewOrder from './ViewOrder';
 import AddProductPage from './AddProductPage';
 import ProductUpdatePage from './ProductUpdatePage';
 import ProductDeletePage from './ProductDeletePage';
+import Logout from './Logout';
 
 function App() {
   const [cartItems, setCartItems] = useState([]);
@@ -83,6 +84,9 @@ function App() {
         </Route>
         <Route exact path="/Login">
           <Login />
+        </Route>
+        <Route exact path="/Logout">
+          <Logout />
         </Route>
         <Route path="/Registration">
           <Registration />

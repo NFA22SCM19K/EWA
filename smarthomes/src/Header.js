@@ -1,7 +1,7 @@
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useUser } from './UserContext';
-
 import './style.css';
+
 export default function Header(){
 
 	const history = useHistory();
