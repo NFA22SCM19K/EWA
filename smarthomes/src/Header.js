@@ -41,7 +41,8 @@ export default function Header(){
                     {username ? (<li>
 					<a><span className='glyphicon'>Hello, {username}</span></a></li>
 						) : null}
-					<li><a href='Login' onClick={(e)=>(routeToComponent(e,"Login"))}><span className='glyphicon'>Login</span></a></li>
+					{username ? (<li><a href='Logout'><span class='glyphicon'>Logout</span></a></li>):
+					<li><a href='Login' onClick={(e)=>(routeToComponent(e,"Login"))}><span className='glyphicon'>Login</span></a></li>}
                     <li><a href='Cart' onClick={(e)=>(routeToComponent(e,"Cart"))}><span className='glyphicon'>Cart(0)</span></a></li>
                 </ul>
             </div>
