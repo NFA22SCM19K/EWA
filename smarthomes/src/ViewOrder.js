@@ -19,17 +19,18 @@ export default function ViewOrder(){
 
     console.log(username)
     const userNameToSearch = username;
-    const orderNameToCancel = queryParams.get("orderName");
     const userNameToCancel = username;
 
     const [paymentDetails, setPaymentDetails] = useState(null);
     const [isFormVisible, setFormVisibility] = useState(true);
+    const [cancellationMessage, setCancellationMessage] = useState(null);
 
     // Read paymentDetails from the JSON file
     useEffect(() => {
       // Read payment details from localStorage or load from a server if needed
       const fetchPaymentDetails = async () => {
         try {
+          console.log(localStorage);
           const storedPaymentDetails = localStorage.getItem('PaymentDetails');
           const initialPaymentDetails = storedPaymentDetails
             ? JSON.parse(storedPaymentDetails)
@@ -57,16 +58,19 @@ export default function ViewOrder(){
       }
     };
   
-    const handleCancelOrder = (e) => {
+    const handleCancelOrder = (selectedOrderName,selectedOrderId) => {
       
-      if (orderName !== null && paymentDetails) {
-          const updatedPaymentDetails = { ...prevPaymentDetails };
-  
-          const order = updatedPaymentDetails.orders.find((o) => o.orderid === parseInt(orderId));
+      console.log(selectedOrderId)
+      console.log(selectedOrderName)
+      console.log(userNameToCancel)
+      console.log(paymentDetails)
+      if (selectedOrderName !== null && paymentDetails) {
+          const updatedPaymentDetails = { ...paymentDetails };
+          
+          const order = updatedPaymentDetails.orders.find((o) => o.orderid === parseInt(selectedOrderId));
+          {console.log(order)}
           if (order) {
-            const selectedOrderName = orderNameToCancel;
-
-            if (!selectedOrderName) {
+             if (!selectedOrderName) {
               setCancellationMessage("Please select any product");
               return;
             }
@@ -78,15 +82,16 @@ export default function ViewOrder(){
             if (order.items.length === 0) {
               updatedPaymentDetails.orders = updatedPaymentDetails.orders.filter((o) => o.orderid !== order.orderid);
             }
-          }
-  
+          
+            {console.log(updatedPaymentDetails)}
           localStorage.setItem('PaymentDetails', JSON.stringify(updatedPaymentDetails));
           setCancellationMessage("Your Order is Cancelled");
           setFormVisibility(false);
           return;
         }
-      }
+      
       console.error("Error cancelling order");
+      }
     };
 
     if (!paymentDetails) {
@@ -136,8 +141,7 @@ export default function ViewOrder(){
                                   <td>{order.orderName}</td>
                                   <td>Price:{order.orderPrice}</td>
                                   <td>
-                                    <input type='hidden' name='orderName' value={orderName}/>
-                                    <input type="button " name="Order" value="CancelOrder" className="btnbuy" onClick={handleCancelOrder}/>
+                                    <input type="button " name="Order" value="CancelOrder" className="btnbuy" onClick={() => handleCancelOrder(order.orderName, orderId)}/>
                                   </td>
                                 </tr>
                               ))}
@@ -172,7 +176,7 @@ export default function ViewOrder(){
                       
                         const updatedOrders = orders.filter(
                           (order) =>
-                          order.orderName !== orderNameToCancel && order.userName !== userNameToCancel
+                          order.orderName !== {orderName} && order.userName !== userNameToCancel
                         );
 
                         if (updatedOrders.length <= orders.items.length) {
