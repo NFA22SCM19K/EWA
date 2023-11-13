@@ -14,7 +14,7 @@ export default function ViewOrder(){
     const orderId = queryParams.get("orderId");
     const orderName = queryParams.get("orderName");
     const {user} = useUser();
-    const { username, usertype } = user || "user1";
+    const { username, usertype } = user || {};
 
     const userNameToSearch = username;
     const userNameToCancel = username;
@@ -31,7 +31,7 @@ export default function ViewOrder(){
         try {
           
           const storedPaymentDetails = localStorage.getItem('PaymentDetails');
-          const initialPaymentDetails = storedPaymentDetails?JSON.parse(storedPaymentDetails):require('./PaymentDetails.json');
+          const initialPaymentDetails = storedPaymentDetails ? JSON.parse(storedPaymentDetails):require('./PaymentDetails.json');
   
           setPaymentDetails(initialPaymentDetails);
 

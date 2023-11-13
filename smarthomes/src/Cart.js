@@ -1,14 +1,18 @@
 import Header from "./Header";
 import LeftNavigationBar from "./LeftNavigationBar";
 import { useState } from "react";
+import { useUser } from "./UserContext";
 
 export default function Cart(cartItems){
 
  
-  
+  const {user} = useUser();
+  let ID = 0
+  const { username, usertype } = user || {};
 
   const [items,setItems] = useState(cartItems.cartItems)
   const [display,setDisplay] = useState(1)  
+  const [orderId,setOrderID] = useState(0)  
   
   let total =0;
 
@@ -22,6 +26,7 @@ export default function Cart(cartItems){
 
 
   function removeItem(item) {
+    
     console.log("removeiscalled")
 
     const temp = items.filter((cartItem)=> !(cartItem === item))
@@ -29,14 +34,33 @@ export default function Cart(cartItems){
     console.log(temp)
 
     setItems(temp)
+    cartItems.removeItem(item)
 
   };
 
 
   function storedPaymentDetails(){
 
-    
+    const storedPaymentDetails = JSON.parse(localStorage.getItem('PaymentDetails'));
 
+    console.log(storedPaymentDetails);
+
+    let tempOrder = storedPaymentDetails.orders;
+    console.log(tempOrder)
+
+    let orderId = tempOrder[tempOrder.length -1].orderid + 1;
+
+    let orderItems = items.map((i) =>({'userName':username,'orderName':i.name,'orderPrice':i.price}))
+    tempOrder.push({'orderid' : orderId, 'items':orderItems})
+
+    console.log("added payment items")
+    console.log(storedPaymentDetails)
+
+    localStorage.setItem('PaymentDetails', JSON.stringify(storedPaymentDetails))
+    
+    setOrderID(orderId)
+
+    return orderId;
 
   }
 
@@ -213,10 +237,29 @@ export default function Cart(cartItems){
               </tr>
 
             </table>
-            <button >Make Payment</button>
+            <button onClick={()=> {storedPaymentDetails(); setDisplay(3);}}>Make Payment</button>
 
           
           </>)}
+
+        </div>
+
+        <div>
+
+          { display === 3 && (<>
+            <h2 class='title meta' style={{color:'red', alignSelf:'center'}}><center>
+           
+           Order
+           </center>
+           </h2>
+
+            <h2 class='title meta' style={{color:'black', alignSelf:'center'}}>Your Order is placed 
+           </h2>
+           <h2 class='title meta' style={{color:'black', alignSelf:'center'}}>Your Order ID is {orderId}
+           </h2>
+           <h2 class='title meta' style={{color:'black', alignSelf:'center'}}>Delivery/Pick-Up Date is 11/18/2023 
+           </h2>
+           </>)}
 
         </div>
 

@@ -39,6 +39,16 @@ function App() {
     console.log(cartItems);
   };
 
+  const handleRemoveItem = (item) =>{
+
+    console.log(cartItems)
+
+    const temp = cartItems.filter((cartItem)=> !(cartItem === item))
+
+    setCartItems(temp)
+
+  }
+
 
   return (
     <Router>
@@ -85,7 +95,7 @@ function App() {
           <Registration />
         </Route>
         <Route exact path="/Cart">
-          <Cart cartItems = {cartItems}/>
+          <Cart cartItems = {cartItems} removeItem ={handleRemoveItem}/>
         </Route>
         <Route exact path="/Details">
           <Details item = {detailsItem}/>
