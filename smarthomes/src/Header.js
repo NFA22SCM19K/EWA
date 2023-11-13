@@ -1,10 +1,15 @@
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useUser } from './UserContext';
+import {React, useEffect} from 'react';
+import { useCart } from "./CartContext";
 import './style.css';
 
 export default function Header(){
 
 	const history = useHistory();
+
+	const { items, count, updateCount } = useCart();
+
 
 	function routeToComponent(e, routePath){
 
@@ -14,7 +19,7 @@ export default function Header(){
 
 	const {user} = useUser();
     const { username, usertype } = user || {};
-	
+
     return(
         <>
 		{/* The name of the company goes here  */}
@@ -45,7 +50,7 @@ export default function Header(){
 					<li><a href='Logout' onClick={(e)=>(routeToComponent(e,"Logout"))}><span className='glyphicon'>Logout</span></a></li>
 					<li><a href='Account' onClick={(e)=>(routeToComponent(e,"Account"))}><span className='glyphicon'>Account</span></a></li></>):
 					<li><a href='Login' onClick={(e)=>(routeToComponent(e,"Login"))}><span className='glyphicon'>Login</span></a></li>}
-                    <li><a href='Cart' onClick={(e)=>(routeToComponent(e,"Cart"))}><span className='glyphicon'>Cart(0)</span></a></li>
+                    <li><a href='Cart' onClick={(e)=>(routeToComponent(e,"Cart"))}><span className='glyphicon'>Cart({count})</span></a></li>
                 </ul>
             </div>
         </nav>

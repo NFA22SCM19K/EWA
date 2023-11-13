@@ -37,11 +37,11 @@ export default function Header1(){
 			</div>
             <div style={{float: 'right'}} >
                 <ul className='nav navbar-nav'>
-                    <li class="start selected"><a href="HomeSM">Home</a></li>
-                    <li><a href="AddProductPage">Add Product</a></li>
-                    <li><a href="ProductUpdatePage">Update Product</a></li>
-                    <li><a href="ProductDeletePage">Delete Product</a></li>
-                    <li><a href="SMLogout">Sign Out</a></li>
+                    <li className="start selected"><a href="HomeSM">Home</a></li>
+                    <li><a href="AddProductPage" onClick={(e)=>(routeToComponent(e,"AddProductPage"))}>Add Product</a></li>
+                    <li><a href="ProductUpdatePage" onClick={(e)=>(routeToComponent(e,"ProductUpdatePage"))}>Update Product</a></li>
+                    <li><a href="ProductDeletePage" onClick={(e)=>(routeToComponent(e,"ProductDeletePage"))}>Delete Product</a></li>
+                    <li><a href="SMLogout" onClick={(e)=>(routeToComponent(e,"SMLogout"))}>Sign Out</a></li>
                 </ul>
             </div>
         </nav>

@@ -1,7 +1,8 @@
 import Header from "./Header";
 import LeftNavigationBar from "./LeftNavigationBar";
-import { useState } from "react";
+import { useState} from "react";
 import { useUser } from "./UserContext";
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 export default function Cart(cartItems){
 
@@ -9,15 +10,18 @@ export default function Cart(cartItems){
   const {user} = useUser();
   let ID = 0
   const { username, usertype } = user || {};
+  const history = useHistory()
+
+  if (!username){
+    history.push('/Login')
+    
+  }
 
   const [items,setItems] = useState(cartItems.cartItems)
   const [display,setDisplay] = useState(1)  
   const [orderId,setOrderID] = useState(0)  
   
   let total =0;
-
-  
-
 
   items.map((item)=>{
     total = total + parseFloat(item.price)
@@ -59,11 +63,127 @@ export default function Cart(cartItems){
     localStorage.setItem('PaymentDetails', JSON.stringify(storedPaymentDetails))
     
     setOrderID(orderId)
+    cartItems.removeItem("")
 
     return orderId;
 
   }
 
+  // Function to get unique categories from items
+  function getUniqueCategories() {
+    const categoriesSet = new Set();
+    items.forEach((item) => {
+      categoriesSet.add(item.category);
+    });
+    return Array.from(categoriesSet);
+  }
+
+  function renderAccessoriesForCategory(category) {
+    // Call accessorylist.js or render accessories based on the category
+    // You can pass category as a prop to accessorylist.js
+   
+    if(category === "Doorbells") {
+      return (
+      <>
+  <h2>Accessory for Door Bells</h2>
+  <table><tr><td><div id='shop_item'>
+  <h3> Wedge Mount </h3>
+  <strong>$ 7.99 </strong><ul>
+  <li id='item'><img src='images/accessories/wedge_mount.jpg' alt='' /></li>
+
+ <li><form method='post' action='Cart'>
+    <input type='hidden' name='name' value='wedgemount'/>
+    <input type='hidden' name='type' value='accessories'/>
+    <input type='hidden' name='maker' value='blink'/>
+    <input type='hidden' name='access' value=''/>
+    <div className='btn-group'>
+    <input type='submit' className='btn btn-success' value='Buy Now'/>
+    </div></form></li></ul></div></td>
+
+ <td><div id='shop_item'>
+ <h3> Rain Cover </h3>
+ <strong>$ 23.86 </strong><ul>
+ <li id='item'><img src='images/accessories/rain_cover.jpg' alt='' /></li>
+
+ <li><form method='post' action='Cart'>
+  <input type='hidden' name='name' value='raincover'/>
+  <input type='hidden' name='type' value='accessories'/>
+  <input type='hidden' name='maker' value='HomeAll'/>
+  <input type='hidden' name='access' value=''/>
+  <div className='btn-group'>
+  <input type='submit' className='btn btn-success' value='Buy Now'/>
+  </div></form></li></ul></div></td></tr></table>
+</>
+);}
+if(category === "Speakers") {
+  return(
+      <>
+
+<h2>Accessory for Speakers</h2>
+<table><tr><td><div id='shop_item'>
+<h3> Holder </h3>
+<strong>$ 12.59 </strong><ul>
+<li id='item'><img src='images/accessories/holder.jpg' alt='' /></li>
+
+<li><form method='post' action='Cart'>
+<input type='hidden' name='name' value='holder'/>
+<input type='hidden' name='type' value='accessories'/>
+<input type='hidden' name='maker' value='holder'/>
+<input type='hidden' name='access' value=''/>
+<div className='btn-group'>
+<input type='submit' className='btn btn-success' value='Buy Now'/>
+</div></form></li></ul></div></td>
+
+<td><div id='shop_item'>
+<h3> Mount It </h3>
+<strong>$ 16.99 </strong><ul>
+<li id='item'><img src='images/accessories/mountit.jpg' alt='' /></li>
+
+<li><form method='post' action='Cart'>
+    <input type='hidden' name='name' value='mountit'/>
+    <input type='hidden' name='type' value='accessories'/>
+    <input type='hidden' name='maker' value='mountit'/>
+    <input type='hidden' name='access' value=''/>
+    <div className='btn-group'>
+    <input type='submit' className='btn btn-success' value='Buy Now'/>
+    </div></form></li></ul></div></td></tr></table>
+    </>
+);}
+if(category === "Lightings" ) {
+  return(
+<>
+
+<h2>Accessory for Lightings</h2>
+<table><tr><td><div id='shop_item'>
+<h3> Wall Switch Module </h3>
+<strong>$ 44.99 </strong><ul>
+<li id='item'><img src='images/accessories/philips_2.jpg' alt='' /></li>
+
+<li><form method='post' action='Cart'>
+<input type='hidden' name='name' value='switchmodule'/>
+<input type='hidden' name='type' value='accessories'/>
+<input type='hidden' name='maker' value='philips'/>
+<input type='hidden' name='access' value=''/>
+    <div className='btn-group'>
+    <input type='submit' className='btn btn-success' value='Buy Now'/>
+    </div></form></li></ul></div></td>
+
+<td><div id='shop_item'>
+<h3> Tap Dial Switch </h3>
+<strong>$ 49.99 </strong><ul>
+<li id='item'><img src='images/accessories/philips_3.jpg' alt='' /></li>
+
+<li><form method='post' action='Cart'>
+    <input type='hidden' name='name' value='tapdialswitch'/>
+    <input type='hidden' name='type' value='accessories'/>
+    <input type='hidden' name='maker' value='philips'/>
+    <input type='hidden' name='access' value=''/>
+    <div className='btn-group'>
+    <input type='submit' className='btn btn-success' value='Buy Now'/>
+    </div></form></li></ul></div></td></tr></table>
+    </>
+);}
+  }
   
            
 
@@ -72,16 +192,17 @@ export default function Cart(cartItems){
         <Header />
         <LeftNavigationBar />
         <div id = 'content'>
+        <div className='post'>
         {display ===1 && (
         
           <div style={{padding:"5px"}}>
 
-            <h2 class='title meta' style={{color:'red', alignSelf:'center', fontSize:'24px'}}><center>
+            <h2 className='title meta' style={{color:'red', alignSelf:'center', fontSize:'24px'}}><center>
            
            Cart
            </center>
            </h2>
-
+          
           <div >
            {items.map((item)=> (
             <div>
@@ -103,6 +224,16 @@ export default function Cart(cartItems){
           <br/>
           <p> </p>
           <p><button onClick={()=>{ setDisplay(2) }}> CheckOut</button></p>
+
+          <div>
+              {/* Iterate through items and get unique categories */}
+              {getUniqueCategories().map((category) => (
+                <div key={category}>
+                  {/* Render accessories for the current category */}
+                  {renderAccessoriesForCategory(category)}
+                </div>
+              ))}
+            </div>
           
     
         </div>)}
@@ -112,13 +243,13 @@ export default function Cart(cartItems){
         <div style={{padding:"5px"}}>
           { display === 2 && (<>
 
-           <h2 class='title meta' style={{color:'red', alignSelf:'center'}}><center>
+           <h2 className='title meta' style={{color:'red', alignSelf:'center'}}><center>
            
            Order
            </center>
            </h2>
           
-            <table class='gridtable'>
+            <table className='gridtable'>
               <tr><td>Customer Name</td><td>UserName</td></tr>
               {items.map((item)=> (
             <tr>
@@ -247,20 +378,20 @@ export default function Cart(cartItems){
         <div>
 
           { display === 3 && (<>
-            <h2 class='title meta' style={{color:'red', alignSelf:'center'}}><center>
+            <h2 className='title meta' style={{color:'red', alignSelf:'center'}}><center>
            
            Order
            </center>
            </h2>
 
-            <h2 class='title meta' style={{color:'black', alignSelf:'center'}}>Your Order is placed 
+            <h2 className='title meta' style={{color:'black', alignSelf:'center'}}>Your Order is placed 
            </h2>
-           <h2 class='title meta' style={{color:'black', alignSelf:'center'}}>Your Order ID is {orderId}
+           <h2 className='title meta' style={{color:'black', alignSelf:'center'}}>Your Order ID is {orderId}
            </h2>
-           <h2 class='title meta' style={{color:'black', alignSelf:'center'}}>Delivery/Pick-Up Date is 11/18/2023 
+           <h2 className='title meta' style={{color:'black', alignSelf:'center'}}>Delivery/Pick-Up Date is 11/18/2023 
            </h2>
            </>)}
-
+            </div>
         </div>
 
 

@@ -1,29 +1,20 @@
 import './style.css';
-import Header from './Header';
+import Header2 from './Header2';
 import LeftNavigationBar from './LeftNavigationBar';
 import { useLocation } from "react-router-dom";
 import {React, useState, useEffect} from 'react';
 import { useUser } from './UserContext';
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-export default function ViewOrder(){
-    const {user} = useUser();
-    const { username, usertype } = user || {}
-    const history = useHistory();
-
-    console.log(username)
-    if (!username){
-      history.push('/Login')
-      
-    }
-
+export default function OrderUpdatePage(){
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
 
     const Order = queryParams.get("Order");
     const orderId = queryParams.get("orderId");
     const orderName = queryParams.get("orderName");
-    
+    const {user} = useUser();
+    const { username, usertype } = user || {}
 
     const userNameToSearch = username;
     const userNameToCancel = username;
@@ -53,11 +44,13 @@ export default function ViewOrder(){
       fetchPaymentDetails();
     }, []);
 
+    const history = useHistory();
+
     const handleViewOrder = (e) => {
       e.preventDefault();
       const selectedOrderId = e.target.elements.orderId.value;
       if (selectedOrderId) {
-        history.push(`/viewOrder?Order=ViewOrder&orderId=${selectedOrderId}`);
+        history.push(`/OrderUpdatePage?Order=ViewOrder&orderId=${selectedOrderId}`);
       } else {
         // Handle the case where the orderId is not valid
         console.log("Invalid orderId");
@@ -77,7 +70,7 @@ export default function ViewOrder(){
             }
 
             order.items = order.items.filter(
-              (item) => !(item.orderName === selectedOrderName && item.userName === userNameToCancel)
+              (item) => !(item.orderName === selectedOrderName )
             ); 
   
             if (order.items.length === 0) {
@@ -107,10 +100,10 @@ export default function ViewOrder(){
     return(
         <>
         <div className="Container">
-            <Header />
+            <Header2 />
             <LeftNavigationBar />
             {isFormVisible && (
-            <form  onSubmit={handleViewOrder}>
+            <form  onSubmit={(e)=>{handleViewOrder(e)}}>
             <div id='content'><div className='post'><h2 className='title meta'>
             <a style={{fontSize: "24px"}}>Order</a>
             </h2><div className='entry'>
@@ -127,7 +120,7 @@ export default function ViewOrder(){
                     {paymentDetails.orders.find((o) => o.orderid === parseInt(orderId)) && (
                             <>
                               {Object.values(paymentDetails.orders.find((o) => o.orderid === parseInt(orderId)).items)
-                                .filter((product) => product.userName === userNameToSearch)
+                                
                                 .length > 0 ? (
                             <table className="gridtable">
                               <tr>

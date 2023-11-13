@@ -21,7 +21,7 @@ export default function AddProductPage(){
             <div className='form-group'><label>Product Name:</label><input type='text' className='form-control' name='pname' placeholder='Enter Product Name'  /></div>
             <div className='form-group'><label>Product Description:</label><br/><textarea className='form-control' placeholder='Enter Product Description' name='pdescription' ></textarea></div>
             <div className='form-group'><label>Product Color:</label><br/><input className='form-control' type='text' placeholder='Enter Product Color' name='pcolor' /></div>
-		    <div className='form-group'><label>Product Price:</label><input class='form-control' type='text' placeholder='Enter Product Price' name='pprice' /></div>
+		    <div className='form-group'><label>Product Price:</label><input className='form-control' type='text' placeholder='Enter Product Price' name='pprice' /></div>
 		    <div className='form-group'><label>Enter Product Image Name:</label><br/><input className='form-control' type='text'  placeholder='Enter Product Image Name(with Extension)' name='pimage'  /></div>
 		    <div className='form-group'><label>Product Condition:</label><br/><input className='form-control' type='text' placeholder='Enter Product Condition' name='pcondition' /></div>
 		    <div className='form-group'><label>Product Company:</label><br/><input className='form-control' type='text' placeholder='Enter Product Company' name='pcompany' /></div>

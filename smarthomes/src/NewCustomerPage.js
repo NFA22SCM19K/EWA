@@ -1,14 +1,14 @@
 import './style.css';
-import Header from './Header';
+import Header2 from './Header2';
 import { useForm, Controller } from 'react-hook-form';
-import { useHistory } from 'react-router-dom';
 import userDetails from './UserDetails.json';
-import {React, useState, useEffect} from 'react';
+import {React, useState,useEffect} from 'react';
 
-export default function Registration(){
+export default function NewCustomerPage(){
     const { register,control, handleSubmit, setError,setValue, formState: { errors } } = useForm();
-    const history = useHistory();
-    const [registrationSuccess, setRegistrationSuccess] = useState(false);
+    
+    const [isFormVisible, setFormVisibility] = useState(true);
+    const [updationMessage, setupdationMessage] = useState();
 
     useEffect(() => {
         // Set the default value for usertype when the component mounts
@@ -32,10 +32,9 @@ export default function Registration(){
                     password: data.password,
                     usertype: data.usertype
                   });
-                  // Set registration success to true
-                    setRegistrationSuccess(true);
-                // Redirect to login or account page
-                history.push('/login?success=true'); // Change '/Login' to the appropriate route
+                  setupdationMessage("Account created");
+                  setFormVisibility(false);
+               
             }
       
           }
@@ -50,11 +49,13 @@ export default function Registration(){
     return(
         <>
              <div className="Container">
-                <Header />
+                <Header2 />
+                {isFormVisible && (
                 <div className='post' style={{float: "none", width: "100%"}}>
-                <h2 className='title meta'><a style={{fontSize: "24px"}}>Registration</a></h2>
+                <h2 className='title meta'><a style={{fontSize: "24px"}}>Add New Customer</a></h2>
                 <div className='entry'>
                 <div style={{width:"400px", margin:"25px", marginLeft: "auto",marginRight: "auto"}}>
+                
                 <form onSubmit={handleSubmit(handleRegistration, handleError)}>
                     <table style={{width:'100%'}}><tr><td>
                     <h3>Username</h3></td><td><Controller
@@ -99,8 +100,18 @@ export default function Registration(){
                         </td></tr></table>
                     <input type='submit' className='btnbuy' name='ByUser' value='Create User' style={{float: "right",height: "20px", margin: "20px", marginRight: "10px"}}></input>
                 </form>
-                
                 </div></div></div>
+                )}
+                {updationMessage && (
+                <>
+                    <div className='post' style={{float: "none", width: "100%"}}>
+                   <div id='myModal' className='modal fade' role='dialog'><div className='modal-dialog'><div className='modal-content'><div className='modal-header'> <button type='button' className='close' data-dismiss='modal'>&times;</button> <h4 className='modal-title'>User Account Status</h4> </div>  
+                  <div className='modal-body'><p>User Created Successfully!.</p></div><div className='modal-footer'><button type='button' className='btn btn-default' data-dismiss='modal'>Close</button></div></div></div></div>
+                  <h4 style={{color:"red",align:"center"}}>User Created Successfully!</h4>
+                  </div>
+                  </> 
+              )}
+                
             </div>
         </>
     );

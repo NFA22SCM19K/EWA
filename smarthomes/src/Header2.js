@@ -33,9 +33,9 @@ export default function Header2(){
 			</div>
             <div style={{float: 'right'}} >
                 <ul className='nav navbar-nav'>
-                    <li><a href="OrderUpdatePage">Manage Customer Orders</a></li>
-                    <li><a href="NewCustomerPage">Add Customer Accounts</a></li>
-                    <li><a href="SAMLogout">SignOut</a></li>  
+                    <li><a href="OrderUpdatePage" onClick={(e)=>(routeToComponent(e,"OrderUpdatePage"))}>Manage Customer Orders</a></li>
+                    <li><a href="NewCustomerPage" onClick={(e)=>(routeToComponent(e,"NewCustomerPage"))}>Add Customer Accounts</a></li>
+                    <li><a href="SAMLogout" onClick={(e)=>(routeToComponent(e,"SAMLogout"))}>SignOut</a></li>  
                 </ul>
             </div>
         </nav>

@@ -14,7 +14,7 @@ export default function Details(item){
         
         <div id='content'><div className='post'><h2 className='title meta'>
         <a style={{fontSize: "24px"}}>{detailsItem.Name}</a></h2>
-        <div class='productContainer'><img src = {'images/' + detailsItem.Type + '/' + detailsItem.Image} alt =''  style ={{maxWidth: "200px", maxHeight: "170px", width:"200px", height:"170px"}}/><h2>
+        <div className='productContainer'><img src = {'images/' + detailsItem.Type + '/' + detailsItem.Image} alt =''  style ={{maxWidth: "200px", maxHeight: "170px", width:"200px", height:"170px"}}/><h2>
         {detailsItem.Desc}</h2> <h2> Price - ${detailsItem.Price} </h2></div>
 
         {console.log(detailsItem.Type)}
@@ -67,8 +67,8 @@ export default function Details(item){
 			<input type='hidden' name='type' value='accessories'/>
 			<input type='hidden' name='maker' value='holder'/>
 			<input type='hidden' name='access' value=''/>
-			<div class='btn-group'>
-			<input type='submit' class='btn btn-success' value='Buy Now'/>
+			<div className='btn-group'>
+			<input type='submit' className='btn btn-success' value='Buy Now'/>
 			</div></form></li></ul></div></td>
 
 			<td><div id='shop_item'>
@@ -81,8 +81,8 @@ export default function Details(item){
 					<input type='hidden' name='type' value='accessories'/>
 					<input type='hidden' name='maker' value='mountit'/>
 					<input type='hidden' name='access' value=''/>
-					<div class='btn-group'>
-					<input type='submit' class='btn btn-success' value='Buy Now'/>
+					<div className='btn-group'>
+					<input type='submit' className='btn btn-success' value='Buy Now'/>
 					</div></form></li></ul></div></td></tr></table>
           </>
 		)}
@@ -100,8 +100,8 @@ export default function Details(item){
 			<input type='hidden' name='type' value='accessories'/>
 			<input type='hidden' name='maker' value='philips'/>
 			<input type='hidden' name='access' value=''/>
-					<div class='btn-group'>
-					<input type='submit' class='btn btn-success' value='Buy Now'/>
+					<div className='btn-group'>
+					<input type='submit' className='btn btn-success' value='Buy Now'/>
 					</div></form></li></ul></div></td>
 
 			<td><div id='shop_item'>
@@ -114,8 +114,8 @@ export default function Details(item){
 					<input type='hidden' name='type' value='accessories'/>
 					<input type='hidden' name='maker' value='philips'/>
 					<input type='hidden' name='access' value=''/>
-					<div class='btn-group'>
-					<input type='submit' class='btn btn-success' value='Buy Now'/>
+					<div className='btn-group'>
+					<input type='submit' className='btn btn-success' value='Buy Now'/>
 					</div></form></li></ul></div></td></tr></table>");
           </>
 		)}

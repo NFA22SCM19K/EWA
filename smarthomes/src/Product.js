@@ -1,11 +1,12 @@
 import './style.css';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useCart } from "./CartContext";
 
 export default function Product(product){
 
 		const history = useHistory()
 		// details
-
+		const { items, count, updateCount } = useCart();
     return (
         <>
 			<h3>{product.Name}</h3>
@@ -16,10 +17,11 @@ export default function Product(product){
                     <form onSubmit={(e)=>{
 											
 											
-											const item = {'name':product.Name,'price':product.Price};
+											const item = {'name':product.Name,'price':product.Price,'category':product.Type};
 											product.addItem(item);
 											console.log("submit called");
 											e.preventDefault();
+												updateCount(count+1)
 											history.push('Cart');
 
 

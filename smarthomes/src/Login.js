@@ -36,7 +36,10 @@ export default function Login() {
     
         // Check if the user exists in the JSON data
         const user = userDetails.users.find(user => user.username === username);
-
+        console.log(user.password)
+        console.log(password)
+        console.log(user.usertype)
+        console.log(usertype)
         if (user && user.password === password && user.usertype === usertype) {
           setError('');
           loginUser({ username: formData.username, usertype: formData.usertype });
@@ -99,7 +102,7 @@ export default function Login() {
                 <h3>User Type</h3></td><td><Controller
                         name="usertype"
                         control={control}
-                        render={({ field }) => (<select name='usertype' className='input' {...field} ><option value='customer'>Customer</option><option value='storeManager'>Store Manager</option><option value='salesManager'>Salesman</option></select>
+                        render={({ field }) => (<select name='usertype' className='input' {...field} ><option value='customer'>Customer</option><option value='storeManager'>Store Manager</option><option value='salesManager'>salesManager</option></select>
                         )}
                         />
                 </td></tr><tr><td></td><td>
