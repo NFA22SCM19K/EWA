@@ -2,9 +2,14 @@ import Header from "./Header";
 import LeftNavigationBar from "./LeftNavigationBar";
 import './style.css';
 import { useLocation } from "react-router-dom";
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useCart } from "./CartContext";
+
 export default function AccessoryList(){
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
+
+    const { items, count, updateCount } = useCart();
 
     const CategoryName = queryParams.get("maker");
     function renderContent(){

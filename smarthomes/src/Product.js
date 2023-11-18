@@ -19,9 +19,8 @@ export default function Product(product){
 											
 											const item = {'name':product.Name,'price':product.Price,'category':product.Type};
 											product.addItem(item);
-											console.log("submit called");
 											e.preventDefault();
-												updateCount(count+1)
+											updateCount(count+1)
 											history.push('Cart');
 
 
@@ -60,6 +59,36 @@ export default function Product(product){
 					    </div>
 					</form>
                 </li>
+				<li>
+					<form onSubmit={(e)=>{
+									e.preventDefault();
+									history.push('ReviewForms');
+					}}>
+						<input type='hidden' name='name' value={product.Name}/>
+						<input type='hidden' name='id' value=""/>
+						<input type='hidden' name='category' value={product.Type}/>
+						<input type='hidden' name='price' value={product.Price}/>
+						<input type='hidden' name='img' value={product.Image}/>
+						<input type='hidden' name='desc' value={product.Desc}/>
+						<input type='hidden' name='maker' value={product.Maker}/>
+						<input type='hidden' name='access' value=''/>
+						<input type='submit' className='btn btn-warning' value='Review Product'/>
+					</form>
+				</li>
+				<li>
+					<form onSubmit={(e)=>{
+									e.preventDefault();
+									history.push('DisplayReviews');
+					}}>
+					<input type='hidden' name='name' value={product.Name}/>
+					<input type='hidden' name='id' value=""/>
+					<input type='hidden' name='category' value={product.Type}/>
+					<input type='hidden' name='price' value={product.Price}/>
+					<input type='hidden' name='img' value={product.Image}/>
+					<input type='hidden' name='desc' value={product.Desc}/>
+					<input type='hidden' name='maker' value={product.Maker}/>
+					<input type='hidden' name='access' value=''/>
+					<input type='submit' className='btn btn-default' value='View Product Reviews'/></form></li>
             </ul>
         </>
     );

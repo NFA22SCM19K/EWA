@@ -25,6 +25,8 @@ import SAMLogout from './SAMLogout';
 import NewCustomerPage from './NewCustomerPage';
 import OrderUpdatePage from './OrderUpdatePage';
 import { useCart } from "./CartContext";
+import ReviewForm from './ReviewForm';
+import DisplayReviews from './DisplayReviews';
 
 function App() {
   const [cartItems, setCartItems] = useState([]);
@@ -160,6 +162,12 @@ function App() {
         </Route>
         <Route path = "/OrderUpdatePage">
           <OrderUpdatePage/>
+        </Route>
+        <Route path = "/ReviewForms">
+          <ReviewForm/>
+        </Route>
+        <Route path = "/DisplayReviews">
+          <DisplayReviews/>
         </Route>
       </Switch>
       <Footer />

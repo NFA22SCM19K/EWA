@@ -116,7 +116,7 @@ export default function Details(item){
 					<input type='hidden' name='access' value=''/>
 					<div className='btn-group'>
 					<input type='submit' className='btn btn-success' value='Buy Now'/>
-					</div></form></li></ul></div></td></tr></table>");
+					</div></form></li></ul></div></td></tr></table>
           </>
 		)}
     </div></div>
