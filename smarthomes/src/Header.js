@@ -3,6 +3,7 @@ import { useUser } from './UserContext';
 import {React, useEffect} from 'react';
 import { useCart } from "./CartContext";
 import './style.css';
+import AutoComplete from "./AutoComplete";
 
 export default function Header(){
 
@@ -38,6 +39,15 @@ export default function Header(){
 					<li><a href="LightingsList" onClick={(e)=>(routeToComponent(e,"LightingsList")) }><span className="glyphicon">Smart-Lightings</span></a></li>
 					<li><a href="ThermostatsList" onClick={(e)=>(routeToComponent(e,"ThermostatsList")) }><span className="glyphicon">Smart-Thermostats</span></a></li>
 					<li><a href="AccessoryList?maker=all" onClick={(e)=>(routeToComponent(e,"AccessoryList?maker=all"))} ><span className="glyphicon">Accessory </span></a></li>
+					<li><div style={{marginLeft : "70px" , important: "all"}}><span className="glyphicon glyphicon-search" style={{padding: "5px", fontSize: "16px"}}></span>
+						 {/* <input type="text" name="searchId" value="" className="input"
+						id="searchId" onkeyup="doCompletion()" 
+						placeholder="Search for products.." style={{padding: "5px 10px 5px 10px", fontSize: "16px",marginLeft: "5px",width: "400px"}} />
+					<div id="auto-row">
+						<table id="complete-table" className="gridtable"
+							style={{position: "absolute", width: "400px"}}></table></div>  */}
+							<AutoComplete />
+							</div></li>	
 				</ul>
 			</div>
             <div style={{float: 'right'}} >

@@ -4,7 +4,6 @@ import './style.css';
 import Product from "./Product";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-import XMLParser from 'react-xml-parser';
 import { useState, useEffect } from "react";
 
 export default function LightingsList({addItem, details}){
@@ -15,48 +14,29 @@ export default function LightingsList({addItem, details}){
     const [lightingsProducts, setLightingsProducts] = useState([]);
 
     useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const response = await axios.get("/ProductCatalog.xml");
-            const xmlData = response.data;
-            // const parsedData = parse(xmlData);
-            const parsedData = new XMLParser().parseFromString(xmlData);
-            const lightings = parsedData.getElementsByTagName("lightings");
-    
-            const products = lightings.map((lighting) => {
-              const id = lighting.attributes.id;
-              const name = lighting.getElementsByTagName("name")[0].value;
-              const price = lighting.getElementsByTagName("price")[0].value;
-              const image = lighting.getElementsByTagName("image")[0].value;
-              const description = lighting.getElementsByTagName("description")[0].value;
-              const manufacturer = lighting.getElementsByTagName("manufacturer")[0].value;
-              // ... other product details
-    
-              return {
-                id,
-                name,
-                price,
-                image,
-                description,
-                manufacturer,
-                // ... other product details
-              };
-            });
-    
-            setLightingsProducts(products);
-          } catch (error) {
-            console.error("Error fetching data:", error);
-          }
-        };
-    
-        fetchData();
-      }, [CategoryName]);
+      const fetchData = async () => {
+        try {
+
+          const response = await axios.get("http://localhost:3001/api/getAllProducts",{
+          params: { category: "Lightings" },
+          });
+          // Assuming the API response returns an array of products
+          const products = response.data;
+          console.log(products)
+          setLightingsProducts(products);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+  
+      fetchData();
+    }, [CategoryName]);
 
     function renderContent(){
         const productsByMaker = CategoryName
             ? lightingsProducts.filter(
                 (product) =>
-                product.manufacturer.toLowerCase() === CategoryName.toLowerCase()
+                product.prod_Retailer.toLowerCase() === CategoryName.toLowerCase()
             )
             : lightingsProducts;
 
@@ -68,14 +48,14 @@ export default function LightingsList({addItem, details}){
         const rows = [];
         for (let i = 0; i < productsByMaker.length; i += 3) {
             const row = productsByMaker.slice(i, i + 3).map((product) => (
-                <td key={product.id}>
+                <td key={product.prod_id}>
                 <div id='shop_item'>
                 <Product
-                    Id={product.id}
-                    Name={product.name}
-                    Price={product.price}
-                    Image={product.image}
-                    Desc={product.description}
+                    Id={product.prod_id}
+                    Name={product.prod_name}
+                    Price={product.prod_price}
+                    Image={product.prod_img}
+                    Desc={product.prod_Description}
                     Type="Lightings"
                     Maker={CategoryName}
                     addItem={addItem}

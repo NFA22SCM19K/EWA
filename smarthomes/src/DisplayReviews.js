@@ -7,13 +7,9 @@ import axios from 'axios';
 
 export default function DisplayReviews(){
     const location = useLocation();
-      const queryParams = new URLSearchParams(location.search);
-  
-      const productname = queryParams.get("name");
-      const productid = queryParams.get("id");
-      const productcategory = queryParams.get("category");
-
-      const [reviews, setReviews] = useState([]);
+    const { name } = location.state;
+    console.log(name)
+    const [reviews, setReviews] = useState([]);
     
       
     useEffect(() => {
@@ -21,7 +17,9 @@ export default function DisplayReviews(){
         const productId = 3;
     
         // Fetch reviews for the product
-        axios.get(`http://localhost:3001/api/getAllReviews`)
+        // axios.get(`http://localhost:3001/api/getAllReviews`)
+        console.log(name)
+        axios.get(`http://localhost:3001/api/getProductReviews/${name}`)
           .then(response => {
             setReviews(response.data);
           })
@@ -29,16 +27,6 @@ export default function DisplayReviews(){
             console.error('Error fetching reviews:', error.message);
           });
       }, []);
-
-
-//       axios.get(`http://localhost:3001/api/getProductReviews/${productId}`)
-//     .then(response => {
-//       setReviews(response.data);
-//     })
-//     .catch(error => {
-//       console.error('Error fetching reviews:', error.message);
-//     });
-// }, []);
       console.log(reviews)
       
 
@@ -51,7 +39,7 @@ export default function DisplayReviews(){
         {reviews.length === 0 ? (
         <p>No reviews found for the product.</p>
       ) : (<>
-        <h1 style={{align:"center"}}><span style={{color:"red"}}> {productname} Reviews</span></h1><br/><br/>
+        <h1 style={{align:"center"}}><span style={{color:"red",align:"center"}}> {name} Reviews</span></h1><br/><br/>
         {reviews.map((review, index) => (
           <article key={index} style={{ marginLeft: '25%' }}>
           <h2 style={{ color: 'blue' }}>{`Review #${index + 1} by ${review.userId}`}</h2>

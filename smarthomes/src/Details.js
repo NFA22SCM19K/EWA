@@ -1,10 +1,19 @@
 import Header from "./Header";
 import LeftNavigationBar from "./LeftNavigationBar";
+import { useLocation } from 'react-router-dom';
 
-export default function Details(item){
+	export default function Details(item){
 
-  const detailsItem = item.item
-  console.log(detailsItem);
+	const location = useLocation();
+    const { item_p } = location.state;
+    console.log(item_p)
+
+	let detailsItem = item.item
+	
+	if(detailsItem.length == 0)
+	{
+		detailsItem = item_p
+	}
 
   return (
     <>

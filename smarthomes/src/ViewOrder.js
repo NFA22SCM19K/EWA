@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import {React, useState, useEffect} from 'react';
 import { useUser } from './UserContext';
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import axios from 'axios';
 
 export default function ViewOrder(){
     const {user} = useUser();
@@ -64,7 +65,7 @@ export default function ViewOrder(){
       }
     };
   
-    const handleCancelOrder = (selectedOrderName,selectedOrderId) => {
+    const  handleCancelOrder = async (selectedOrderName,selectedOrderId) => {
 
       if (selectedOrderName !== null && paymentDetails) {
           const updatedPaymentDetails = { ...paymentDetails };
@@ -88,6 +89,21 @@ export default function ViewOrder(){
           localStorage.setItem('PaymentDetails', JSON.stringify(updatedPaymentDetails));
           setCancellationMessage("Your Order is Cancelled");
           setFormVisibility(false);
+
+          try{
+
+            
+
+            const response = await axios.delete('http://localhost:3001/api/deleteOrder', {
+              params: { orderID: parseInt(selectedOrderId) }
+          });
+          }catch(e){
+            console.error("Delete order");
+
+          }
+
+          
+
           
 
        }

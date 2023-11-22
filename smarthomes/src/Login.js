@@ -3,15 +3,17 @@ import Header from './Header';
 import { useForm, Controller } from 'react-hook-form';
 import {React, useState,useEffect} from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import userDetails from './UserDetails.json';
 import { useUser } from './UserContext';
 import { useLocation } from "react-router-dom";
+import axios from 'axios';
+
 export default function Login() {
 
     const { register, handleSubmit, control, setValue,formState: {errors}} = useForm();
     const [error, setError] = useState('');
     const location = useLocation();
     const successParam = new URLSearchParams(location.search).get('success');
+    const usertypeParam = new URLSearchParams(location.search).get('usertype');
     const [registrationSuccess, setRegistrationSuccess] = useState(successParam === 'true');
     const history = useHistory()
     const { loginUser } = useUser();
@@ -31,18 +33,30 @@ export default function Login() {
         handleLogin(formData);
     }
 
-    const handleLogin = (formData) => {
+    const handleLogin = async (formData) => {
         const { username, password, usertype } = formData;
     
-        // Check if the user exists in the JSON data
-        const user = userDetails.users.find(user => user.username === username);
-        console.log(user.password)
-        console.log(password)
-        console.log(user.usertype)
-        console.log(usertype)
-        if (user && user.password === password && user.usertype === usertype) {
+        // // Check if the user exists in the JSON data
+        // const user = userDetails.users.find(user => user.username === username);
+        // console.log(user.password)
+        // console.log(password)
+        // console.log(user.usertype)
+        // console.log(usertype)
+
+        try {
+          // Make a request to your server to check if the user exists in the database
+          const response = await axios.post('http://localhost:3001/api/login', {
+            username,
+            password,
+            usertype,
+          });
+
+          const { user } = response.data;
+          
+        // if (user && user.password === password && user.usertype === usertype) {
+          if (user) {
           setError('');
-          loginUser({ username: formData.username, usertype: formData.usertype });
+          loginUser({ username: user.userName, usertype: user.userType });
           
           if(usertype === "customer")
           {
@@ -61,6 +75,10 @@ export default function Login() {
           // Simulate login failure
           setError('Invalid username, password, or user type.');
         }
+      }catch (error) {
+          console.error('Error logging in:', error.message);
+          setError('An error occurred while logging in.');
+        }
       };
 
     const handleError = (errors) => {};
@@ -69,6 +87,7 @@ export default function Login() {
         username : {required : "Username cannot be blank"},
         password : { required : "Password cannot be blank" },
     };  
+
     return (
         <>
         <div className="Container">
@@ -79,7 +98,7 @@ export default function Login() {
             <div style={{width:'400px', margin:'25px', marginLeft:'auto',marginRight: 'auto'}}>
             {registrationSuccess && (
           <p style={{ color: 'red',fontSize:"15px" }}>
-            Your {userDetails.users[userDetails.users.length - 1].usertype} account has been created. Please login.
+            Your {usertypeParam} account has been created. Please login.
           </p>
         )}
         <form onSubmit={handleSubmit(handleRegistration, handleError)}>

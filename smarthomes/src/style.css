@@ -627,5 +627,32 @@ table.gridtable td {
   border-radius: 0 3px 3px 0;
 }
 
+.autocomplete-container {
+	position: relative;
+  }
+  
+  .suggestions-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	width: 100%;
+	border: 1px solid #ccc;
+	background-color: #fff;
+	z-index: 1;
+  }
+  
+  .suggestions-list li {
+	padding: 10px;
+	cursor: pointer;
+  }
+  
+  .suggestions-list li:hover {
+	background-color: #f2f2f2;
+  }
+  
+
 
 

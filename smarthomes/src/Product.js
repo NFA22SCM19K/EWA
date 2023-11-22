@@ -62,10 +62,20 @@ export default function Product(product){
 				<li>
 					<form onSubmit={(e)=>{
 									e.preventDefault();
-									history.push('ReviewForms');
+									const productData = {
+										name: product.Name,
+										id: product.Id, // Include other properties as needed
+										category: product.Type,
+										price: product.Price,
+										img: product.Image,
+										desc: product.Desc,
+										maker: product.Maker,
+										access: "",
+									  };
+									history.push({pathname:'ReviewForms',state:{ productData },});
 					}}>
 						<input type='hidden' name='name' value={product.Name}/>
-						<input type='hidden' name='id' value=""/>
+						<input type='hidden' name='id' value={product.Id}/>
 						<input type='hidden' name='category' value={product.Type}/>
 						<input type='hidden' name='price' value={product.Price}/>
 						<input type='hidden' name='img' value={product.Image}/>
@@ -78,10 +88,11 @@ export default function Product(product){
 				<li>
 					<form onSubmit={(e)=>{
 									e.preventDefault();
-									history.push('DisplayReviews');
+									console.log(product.Name)
+									history.push({pathname:'DisplayReviews', state: { name: product.Name },});
 					}}>
 					<input type='hidden' name='name' value={product.Name}/>
-					<input type='hidden' name='id' value=""/>
+					<input type='hidden' name='id' value={product.Id}/>
 					<input type='hidden' name='category' value={product.Type}/>
 					<input type='hidden' name='price' value={product.Price}/>
 					<input type='hidden' name='img' value={product.Image}/>

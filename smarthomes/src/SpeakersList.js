@@ -4,7 +4,6 @@ import './style.css';
 import Product from "./Product";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-import XMLParser from 'react-xml-parser';
 import { useState, useEffect } from "react";
 
 export default function SpeakersList({addItem, details}){
@@ -17,32 +16,12 @@ export default function SpeakersList({addItem, details}){
     useEffect(() => {
         const fetchData = async () => {
           try {
-            const response = await axios.get("/ProductCatalog.xml");
-            const xmlData = response.data;
-            // const parsedData = parse(xmlData);
-            const parsedData = new XMLParser().parseFromString(xmlData);
-            const speakers = parsedData.getElementsByTagName("speakers");
-    
-            const products = speakers.map((speaker) => {
-              const id = speaker.attributes.id;
-              const name = speaker.getElementsByTagName("name")[0].value;
-              const price = speaker.getElementsByTagName("price")[0].value;
-              const image = speaker.getElementsByTagName("image")[0].value;
-              const description = speaker.getElementsByTagName("description")[0].value;
-              const manufacturer = speaker.getElementsByTagName("manufacturer")[0].value;
-              // ... other product details
-    
-              return {
-                id,
-                name,
-                price,
-                image,
-                description,
-                manufacturer,
-                // ... other product details
-              };
+            const response = await axios.get("http://localhost:3001/api/getAllProducts",{
+            params: { category: "Speakers" },
             });
-    
+            // Assuming the API response returns an array of products
+            const products = response.data;
+            console.log(products)
             setSpeakersProducts(products);
           } catch (error) {
             console.error("Error fetching data:", error);
@@ -56,7 +35,7 @@ export default function SpeakersList({addItem, details}){
         const productsByMaker = CategoryName
             ? speakersProducts.filter(
                 (product) =>
-                product.manufacturer.toLowerCase() === CategoryName.toLowerCase()
+                product.prod_Retailer.toLowerCase() === CategoryName.toLowerCase()
             )
             : speakersProducts;
 
@@ -69,14 +48,14 @@ export default function SpeakersList({addItem, details}){
         for (let i = 0; i < productsByMaker.length; i += 3) {
         
             const row = productsByMaker.slice(i, i + 3).map((product) => (
-                <td key={product.id}>
+                <td key={product.prod_id}>
                 <div id='shop_item'>
                 <Product
-                    Id={product.id}
-                    Name={product.name}
-                    Price={product.price}
-                    Image={product.image}
-                    Desc={product.description}
+                    Id={product.prod_id}
+                    Name={product.prod_name}
+                    Price={product.prod_price}
+                    Image={product.prod_img}
+                    Desc={product.prod_Description}
                     Type="Speakers"
                     Maker={CategoryName}
                     addItem={addItem}

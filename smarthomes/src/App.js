@@ -133,7 +133,7 @@ function App() {
         <Route exact path="/Cart">
           <Cart cartItems = {cartItems} removeItem ={handleRemoveItem}/>
         </Route>
-        <Route exact path="/Details">
+        <Route path="/Details">
           <Details item = {detailsItem}/>
         </Route>
         <Route exact path="/ViewOrder">
