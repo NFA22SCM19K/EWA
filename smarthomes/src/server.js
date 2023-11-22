@@ -106,7 +106,7 @@ app.post('/api/addReview', async (req, res) => {
     title: "reviews",
     productRebate: "yes",
     productOnSale: "yes",
-    userId: username,
+    userId: "testuser1",
     userAge: age,
     userGender: gender,
     reviewRating: ratings,
@@ -245,6 +245,18 @@ app.get('/api/getorderID', (req, res) => {
       } else {
           res.json(results);
       }
+  });
+});
+
+app.get('/api/allproducts', (req, res) => {
+  // Fetch all products from the database
+  connection.query('SELECT prod_id, prod_name FROM allprods', (error, results) => {
+    if (error) {
+      console.error('Error fetching products from database:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+      return;
+    }
+    res.json(results);
   });
 });
 

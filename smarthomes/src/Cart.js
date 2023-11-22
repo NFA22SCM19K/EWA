@@ -461,7 +461,7 @@ if(category === "Lightings" ) {
            </h2>
            <h2 className='title meta' style={{color:'black', alignSelf:'center'}}>Your Order ID is {orderId}
            </h2>
-           <h2 className='title meta' style={{color:'black', alignSelf:'center'}}>Delivery/Pick-Up Date is 11/18/2023 
+           <h2 className='title meta' style={{color:'black', alignSelf:'center'}}>Delivery/Pick-Up Date is 12/5/2023 
            </h2>
            </>)}
             </div>
