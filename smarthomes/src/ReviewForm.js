@@ -15,7 +15,7 @@ export default function ReviewForm() {
   const [reviewAdded, setReviewAdded] = useState(false); 
   const {user} = useUser();
     const { username, usertype } = user || {}
-  const u = {username}
+  const u = username
   const location = useLocation();
   const { productData } = location.state;
 
@@ -68,6 +68,7 @@ export default function ReviewForm() {
     e.preventDefault();
     try {
       console.log(reviewDetail)
+      console.log(u)
       await axios.post('http://localhost:3001/api/addReview', reviewDetail);
       console.log('Review added successfully');
       setReviewAdded(true); 

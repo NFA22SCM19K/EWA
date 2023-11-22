@@ -88,7 +88,7 @@ connection.connect((err) => {
 app.post('/api/addReview', async (req, res) => {
   console.log(req.body)
   const {
-    username,
+    u,
     productname,
       productid,
       productcategory,
@@ -106,7 +106,7 @@ app.post('/api/addReview', async (req, res) => {
     title: "reviews",
     productRebate: "yes",
     productOnSale: "yes",
-    userId: "testuser1",
+    userId: u,
     userAge: age,
     userGender: gender,
     reviewRating: ratings,
